@@ -4,6 +4,18 @@ A modern, dynamic portfolio website built with Next.js 14, TypeScript, Tailwind 
 
 ## Recent Updates
 
+**Admin Login Page Implementation** - Added authentication interface for admin access:
+- Email/password login form with Firebase Authentication integration
+- Client-side validation for email format and required fields
+- Loading states during authentication process
+- User-friendly error messages for authentication failures
+- Automatic redirect to admin dashboard on successful login
+- Redirect to dashboard if user is already authenticated
+- Dark mode support with consistent styling
+- Responsive design with centered form layout
+- Uses useAuth hook for authentication state management
+- Implements Requirements 11.4 (admin authentication)
+
 **Profile Picture Implementation** - Added profile image display to home page:
 - Profile avatar now displays from local public folder (`/ProfilePic.jpeg`)
 - Uses standard HTML img tag for reliability with local images
@@ -213,6 +225,9 @@ The test server provides:
 ├── app/                    # Next.js app directory
 │   ├── page.tsx           # Home page with SSR
 │   ├── layout.tsx         # Root layout component
+│   ├── admin/             # Admin section
+│   │   └── login/         # Admin login
+│   │       └── page.tsx   # Login page with Firebase Auth
 │   ├── contact/           # Contact section
 │   │   └── page.tsx       # Contact page with form and info
 │   └── projects/          # Projects section
@@ -228,12 +243,18 @@ The test server provides:
 │   ├── Footer.tsx         # Footer component
 │   ├── ContactForm.tsx    # Contact form with validation
 │   ├── ErrorMessage.tsx   # Error message display component
+│   ├── LoadingSpinner.tsx # Loading spinner component
 │   └── ThemeProvider.tsx  # Theme context provider
 ├── lib/                    # Utility functions and Firebase config
 │   ├── __tests__/         # Test files
 │   │   └── firestore.pbt.test.ts  # Property-based tests for Firestore
+│   ├── hooks/             # Custom React hooks
+│   │   ├── useAuth.ts     # Authentication state management
+│   │   ├── useProfile.ts  # Profile data fetching
+│   │   └── useCachedProjects.ts  # Cached projects data
 │   ├── firebase.ts        # Firebase initialization and config
-│   └── firestore.ts       # Firestore data access layer
+│   ├── firestore.ts       # Firestore data access layer
+│   └── validation.ts      # Input validation utilities
 ├── types/                  # TypeScript type definitions
 │   └── index.ts           # Shared types and interfaces
 ├── functions/              # Firebase Functions
@@ -781,6 +802,109 @@ window.gtag('event', 'project_view', {
 - 8.4: Structured data markup (JSON-LD)
 - 8.7: Unique page titles and descriptions
 - 10.3: Analytics event tracking for project views
+
+### Admin Login Page
+
+The Admin Login Page (`app/admin/login/page.tsx`) provides a secure authentication interface for admin users to access the admin dashboard.
+
+**Architecture:**
+- **Client Component**: Uses Firebase Authentication for email/password sign-in
+- **Authentication Hook**: Leverages useAuth hook for state management
+- **Automatic Redirects**: Redirects to dashboard if already authenticated
+
+**Key Features:**
+- **Email/Password Authentication**: Firebase Auth integration with secure sign-in
+- **Form Validation**: Client-side validation for email format and required fields
+- **Error Handling**: User-friendly error messages for authentication failures
+- **Loading States**: Visual feedback during authentication process
+- **Auto-Redirect**: Automatically redirects authenticated users to admin dashboard
+- **Dark Mode Support**: Consistent styling across light and dark themes
+- **Responsive Design**: Centered form layout with mobile-first approach
+
+**Authentication Flow:**
+
+1. **Initial Load**
+   - Checks authentication state using useAuth hook
+   - Shows loading spinner while checking auth state
+   - Redirects to dashboard if user is already authenticated
+
+2. **Form Validation**
+   - Validates email field is not empty
+   - Validates password field is not empty
+   - Validates email format using regex pattern
+   - Displays field-specific validation errors
+
+3. **Login Process**
+   - Calls Firebase Auth login with email and password
+   - Shows loading state with animated spinner
+   - Disables form inputs during submission
+   - Handles authentication errors from Firebase
+
+4. **Success Handling**
+   - Redirects to `/admin/dashboard` on successful login
+   - useEffect hook monitors user state changes
+   - Automatic navigation when user state updates
+
+**Form Components:**
+
+1. **Email Input**
+   - Type: email with autocomplete
+   - Required field with validation
+   - Disabled during submission
+   - Accessible with proper labels
+
+2. **Password Input**
+   - Type: password with autocomplete
+   - Required field with validation
+   - Disabled during submission
+   - Accessible with proper labels
+
+3. **Submit Button**
+   - Shows "Sign in" text normally
+   - Shows animated spinner with "Signing in..." during submission
+   - Disabled during submission to prevent double-clicks
+   - Blue background with hover effects
+
+**Error Display:**
+- Uses ErrorMessage component for consistent error styling
+- Displays validation errors (empty fields, invalid email)
+- Displays authentication errors from Firebase (wrong password, user not found)
+- Clear error messages help users understand and fix issues
+
+**Security Features:**
+- Firebase Authentication handles password security
+- No password storage in client code
+- Secure token-based authentication
+- Protected admin routes require valid auth token
+
+**Visual Design:**
+- Centered card layout with max-width constraint
+- Gray background (light mode) or dark background (dark mode)
+- White card with shadow elevation
+- Professional header with title and subtitle
+- Consistent spacing and typography
+- Smooth transitions for interactive elements
+
+**Accessibility:**
+- Semantic HTML with proper form structure
+- Screen reader labels (sr-only class)
+- Keyboard-accessible form controls
+- ARIA attributes for loading states
+- Focus management for form inputs
+
+**Requirements Validated:**
+- 11.4: Admin authentication protection for admin interface
+- 13.3: Keyboard accessibility for all interactive elements
+- 14.3: Dark mode support with theme persistence
+
+**Usage:**
+```typescript
+// Navigate to admin login
+router.push('/admin/login');
+
+// After successful login, user is redirected to:
+// /admin/dashboard
+```
 
 ### Contact Page
 

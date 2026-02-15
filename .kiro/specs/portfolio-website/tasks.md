@@ -466,7 +466,7 @@ This plan covers all 15 requirements and implements 43 correctness properties th
   - Ensure all tests pass, ask the user if questions arise.
 
 - [ ] 20. Create Admin Login Page
-  - [ ] 20.1 Create LoginPage component
+  - [x] 20.1 Create LoginPage component
     - Implement email/password login form
     - Use Firebase Auth signInWithEmailAndPassword
     - Redirect to admin dashboard on success
