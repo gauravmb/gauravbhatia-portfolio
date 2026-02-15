@@ -458,7 +458,7 @@ This plan covers all 15 requirements and implements 43 correctness properties th
     - Provide fallback message to contact directly
     - _Requirements: 3.4, 12.2_
   
-  - [-] 18.6 Write property test for resume file format
+  - [x] 18.6 Write property test for resume file format
     - **Property 7: Resume File Format**
     - **Validates: Requirements 3.2**
 
