@@ -7,6 +7,15 @@
  * This page is protected by the AdminLayout component which handles
  * authentication checks and redirects.
  * 
+ * Key features:
+ * - Lists all projects with status indicators (Published/Draft, Featured)
+ * - Edit and delete controls for each project
+ * - Create new project button
+ * - Loading and error states
+ * 
+ * Import paths: Uses relative imports for better compatibility across different
+ * build configurations and module resolution strategies.
+ * 
  * Requirements: 11.1
  */
 

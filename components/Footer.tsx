@@ -35,6 +35,19 @@ export default function Footer({ name, email, linkedin, github, twitter }: Foote
             </p>
           </div>
 
+          {/* For Developers Section */}
+          <div className="text-center">
+            <p className="text-xs text-gray-500 dark:text-gray-500 mb-1">
+              For Developers
+            </p>
+            <a
+              href="/api-docs"
+              className="text-sm text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors"
+            >
+              API Documentation
+            </a>
+          </div>
+
           {/* Social Links */}
           <div className="flex items-center space-x-6">
             {email && (

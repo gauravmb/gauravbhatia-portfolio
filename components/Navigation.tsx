@@ -78,6 +78,7 @@ export default function Navigation({ resumeUrl, email, linkedin, profileName }: 
     { href: '/', label: 'Home' },
     { href: '/projects', label: 'Projects' },
     { href: '/contact', label: 'Contact' },
+    { href: '/api-docs', label: 'API Docs' },
   ];
 
   const isActive = (href: string) => {

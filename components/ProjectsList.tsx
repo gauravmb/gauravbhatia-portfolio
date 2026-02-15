@@ -44,31 +44,36 @@ function convertTimestamp(timestamp: any): Date {
  * Unlike the public fetchAllProjects, this does not filter by published status
  */
 async function fetchAllProjectsAdmin(): Promise<Project[]> {
-  const projectsRef = collection(db, 'projects');
-  const q = query(projectsRef, orderBy('createdAt', 'desc'));
-  
-  const querySnapshot = await getDocs(q);
-  
-  return querySnapshot.docs.map((doc) => {
-    const data = doc.data();
-    return {
-      id: doc.id,
-      title: data.title,
-      description: data.description,
-      fullDescription: data.fullDescription,
-      thumbnail: data.thumbnail,
-      images: data.images || [],
-      technologies: data.technologies || [],
-      category: data.category,
-      liveUrl: data.liveUrl,
-      githubUrl: data.githubUrl,
-      featured: data.featured || false,
-      published: data.published,
-      order: data.order || 0,
-      createdAt: convertTimestamp(data.createdAt),
-      updatedAt: convertTimestamp(data.updatedAt),
-    } as Project;
-  });
+  try {
+    const projectsRef = collection(db, 'projects');
+    const q = query(projectsRef, orderBy('createdAt', 'desc'));
+    
+    const querySnapshot = await getDocs(q);
+    
+    return querySnapshot.docs.map((doc) => {
+      const data = doc.data();
+      return {
+        id: doc.id,
+        title: data.title,
+        description: data.description,
+        fullDescription: data.fullDescription,
+        thumbnail: data.thumbnail,
+        images: data.images || [],
+        technologies: data.technologies || [],
+        category: data.category,
+        liveUrl: data.liveUrl,
+        githubUrl: data.githubUrl,
+        featured: data.featured || false,
+        published: data.published,
+        order: data.order || 0,
+        createdAt: convertTimestamp(data.createdAt),
+        updatedAt: convertTimestamp(data.updatedAt),
+      } as Project;
+    });
+  } catch (error: any) {
+    console.error('Firestore query error:', error);
+    throw new Error(`Failed to fetch projects: ${error.message}`);
+  }
 }
 
 /**
@@ -100,11 +105,18 @@ export default function ProjectsList() {
     try {
       setLoading(true);
       setError(null);
+      
+      // Check if Firebase is configured
+      if (!db) {
+        throw new Error('Firebase is not configured. Please check your .env.local file.');
+      }
+      
       const fetchedProjects = await fetchAllProjectsAdmin();
       setProjects(fetchedProjects);
-    } catch (err) {
+    } catch (err: any) {
       console.error('Error loading projects:', err);
-      setError('Failed to load projects. Please try again.');
+      const errorMessage = err?.message || 'Failed to load projects. Please try again.';
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }

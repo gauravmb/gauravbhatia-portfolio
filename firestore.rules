@@ -4,7 +4,8 @@ service cloud.firestore {
     // Projects collection
     match /projects/{projectId} {
       // Anyone can read published projects
-      allow read: if resource.data.published == true;
+      // Authenticated users can read all projects (including drafts)
+      allow read: if resource.data.published == true || request.auth != null;
       
       // Only authenticated users can write
       allow create, update, delete: if request.auth != null;

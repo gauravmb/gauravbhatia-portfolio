@@ -396,4 +396,211 @@ describe('Firestore Data Access Layer - Property-Based Tests', () => {
       );
     });
   });
+
+  // Feature: portfolio-website, Property 32: Draft Visibility Control
+  describe('Property 32: Draft Visibility Control', () => {
+    /**
+     * Property Test: Draft projects exclusion from public queries
+     * 
+     * This test verifies that projects with published=false (drafts) do NOT
+     * appear in public project queries. This is critical for the admin workflow
+     * where portfolio owners can save drafts before publishing.
+     * 
+     * Test strategy:
+     * 1. Generate an array of projects with mixed published states
+     * 2. Ensure we have at least one draft (published=false)
+     * 3. Apply the public query filter (simulating fetchAllProjects)
+     * 4. Verify NO draft projects appear in results
+     * 5. Verify all draft project IDs are absent from results
+     * 6. Verify only published projects are returned
+     * 
+     * This tests the core business logic that ensures draft content
+     * remains private until explicitly published by the portfolio owner.
+     * 
+     * Validates: Requirements 11.5
+     */
+    it('should exclude all draft projects (published=false) from public queries', () => {
+      fc.assert(
+        fc.property(
+          fc.array(projectArbitrary, { minLength: 2, maxLength: 20 }),
+          (generatedProjects) => {
+            // Ensure we have at least one draft project to test exclusion
+            const hasDraft = generatedProjects.some(p => !p.published);
+            
+            // Skip if we don't have any drafts (fast-check will generate new data)
+            fc.pre(hasDraft);
+            
+            // Apply the public query filter (simulates fetchAllProjects)
+            const publicProjects = filterPublishedProjects(generatedProjects);
+            
+            // Property 1: NO draft projects should appear in public results
+            // This is the core requirement - drafts must remain private
+            publicProjects.forEach(project => {
+              expect(project.published).toBe(true);
+            });
+            
+            // Property 2: All draft project IDs must be absent from results
+            // Verifies drafts are completely excluded, not just filtered
+            const draftIds = generatedProjects
+              .filter(p => !p.published)
+              .map(p => p.id);
+            
+            const publicIds = publicProjects.map(p => p.id);
+            
+            draftIds.forEach(draftId => {
+              expect(publicIds).not.toContain(draftId);
+            });
+            
+            // Property 3: Count verification - only published projects returned
+            const expectedPublishedCount = generatedProjects.filter(p => p.published).length;
+            expect(publicProjects.length).toBe(expectedPublishedCount);
+            
+            // Property 4: If all projects are drafts, result should be empty
+            const allDrafts = generatedProjects.every(p => !p.published);
+            if (allDrafts) {
+              expect(publicProjects.length).toBe(0);
+            }
+          }
+        ),
+        { numRuns: 100 } // Run 100 iterations as specified in design
+      );
+    });
+    
+    /**
+     * Edge case: All projects are drafts
+     * Verifies that when all projects are unpublished, no projects are returned
+     */
+    it('should return empty array when all projects are drafts', () => {
+      fc.assert(
+        fc.property(
+          fc.array(projectArbitrary, { minLength: 1, maxLength: 10 }),
+          (generatedProjects) => {
+            // Force all projects to be drafts (unpublished)
+            const allDrafts = generatedProjects.map(p => ({ ...p, published: false }));
+            
+            const publicProjects = filterPublishedProjects(allDrafts);
+            
+            // No projects should be returned
+            expect(publicProjects.length).toBe(0);
+            
+            // Verify we actually had projects to filter
+            expect(allDrafts.length).toBeGreaterThan(0);
+          }
+        ),
+        { numRuns: 50 }
+      );
+    });
+    
+    /**
+     * Edge case: Mixed published and draft projects
+     * Verifies correct filtering when both types exist
+     */
+    it('should correctly separate published from draft projects', () => {
+      fc.assert(
+        fc.property(
+          fc.array(projectArbitrary, { minLength: 4, maxLength: 20 }),
+          (generatedProjects) => {
+            // Ensure we have both published and draft projects
+            // Force at least 2 published and 2 drafts for meaningful test
+            const modified = generatedProjects.map((p, idx) => ({
+              ...p,
+              published: idx % 2 === 0 // Alternate between published and draft
+            }));
+            
+            const publicProjects = filterPublishedProjects(modified);
+            
+            // Count should match published projects
+            const expectedCount = modified.filter(p => p.published).length;
+            expect(publicProjects.length).toBe(expectedCount);
+            
+            // All returned projects must be published
+            publicProjects.forEach(project => {
+              expect(project.published).toBe(true);
+            });
+            
+            // No draft IDs should be in results
+            const draftIds = modified.filter(p => !p.published).map(p => p.id);
+            const publicIds = publicProjects.map(p => p.id);
+            
+            draftIds.forEach(draftId => {
+              expect(publicIds).not.toContain(draftId);
+            });
+          }
+        ),
+        { numRuns: 50 }
+      );
+    });
+    
+    /**
+     * Property Test: Draft state transition
+     * Verifies that changing published from false to true makes project visible
+     */
+    it('should make project visible when published changes from false to true', () => {
+      fc.assert(
+        fc.property(
+          projectArbitrary,
+          (generatedProject) => {
+            // Start with a draft project
+            const draftProject = { ...generatedProject, published: false };
+            
+            // Query with draft - should not appear
+            const resultsWithDraft = filterPublishedProjects([draftProject]);
+            expect(resultsWithDraft.length).toBe(0);
+            
+            // Publish the project
+            const publishedProject = { ...draftProject, published: true };
+            
+            // Query with published - should appear
+            const resultsWithPublished = filterPublishedProjects([publishedProject]);
+            expect(resultsWithPublished.length).toBe(1);
+            expect(resultsWithPublished[0].id).toBe(publishedProject.id);
+            expect(resultsWithPublished[0].published).toBe(true);
+          }
+        ),
+        { numRuns: 100 }
+      );
+    });
+    
+    /**
+     * Property Test: Featured drafts are still hidden
+     * Verifies that even featured projects are hidden if published=false
+     */
+    it('should hide featured projects when they are drafts', () => {
+      fc.assert(
+        fc.property(
+          fc.array(projectArbitrary, { minLength: 2, maxLength: 10 }),
+          (generatedProjects) => {
+            // Create projects where some are featured drafts
+            const modified = generatedProjects.map((p, idx) => ({
+              ...p,
+              featured: idx < generatedProjects.length / 2, // First half featured
+              published: idx >= generatedProjects.length / 2 // Second half published
+            }));
+            
+            // This creates featured drafts (featured=true, published=false)
+            const featuredDrafts = modified.filter(p => p.featured && !p.published);
+            
+            // Only proceed if we have featured drafts to test
+            fc.pre(featuredDrafts.length > 0);
+            
+            const publicProjects = filterPublishedProjects(modified);
+            
+            // Featured drafts should NOT appear in results
+            const featuredDraftIds = featuredDrafts.map(p => p.id);
+            const publicIds = publicProjects.map(p => p.id);
+            
+            featuredDraftIds.forEach(draftId => {
+              expect(publicIds).not.toContain(draftId);
+            });
+            
+            // All returned projects must be published (regardless of featured status)
+            publicProjects.forEach(project => {
+              expect(project.published).toBe(true);
+            });
+          }
+        ),
+        { numRuns: 50 }
+      );
+    });
+  });
 });
