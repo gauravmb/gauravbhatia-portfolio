@@ -23,6 +23,7 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import Layout from '@/components/Layout';
 import ProjectCard from '@/components/ProjectCard';
+import ResumeSection from '@/components/ResumeSection';
 import { fetchProfile, fetchAllProjects } from '@/lib/firestore';
 import type { Profile, Project } from '@/types';
 
@@ -55,7 +56,7 @@ export async function generateMetadata(): Promise<Metadata> {
         canonical: '/',
       },
     };
-  } catch (error) {
+  } catch {
     // Fallback metadata if profile fetch fails
     return {
       title: 'Portfolio',
@@ -218,6 +219,13 @@ export default async function Home() {
           </div>
         </section>
       )}
+
+      {/* Resume Download Section */}
+      <ResumeSection 
+        resumeUrl={profile.resumeUrl}
+        profileName={profile.name}
+        email={profile.email}
+      />
     </Layout>
   );
 }

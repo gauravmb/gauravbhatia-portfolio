@@ -44,7 +44,7 @@ export async function generateMetadata(): Promise<Metadata> {
         canonical: '/contact',
       },
     };
-  } catch (error) {
+  } catch {
     // Fallback metadata if profile fetch fails
     return {
       title: 'Contact | Portfolio',
@@ -74,8 +74,8 @@ export default async function ContactPage() {
             Get In Touch
           </h1>
           <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-            Have a question or want to work together? I'd love to hear from you. 
-            Fill out the form below and I'll get back to you as soon as possible.
+            Have a question or want to work together? I&apos;d love to hear from you. 
+            Fill out the form below and I&apos;ll get back to you as soon as possible.
           </p>
         </div>
 

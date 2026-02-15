@@ -22,12 +22,34 @@ interface NavigationProps {
   resumeUrl?: string;
   email?: string;
   linkedin?: string;
+  profileName?: string;
 }
 
-export default function Navigation({ resumeUrl, email, linkedin }: NavigationProps) {
+export default function Navigation({ resumeUrl, email, linkedin, profileName }: NavigationProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
   const pathname = usePathname();
+
+  // Format filename for resume download
+  const getResumeFilename = () => {
+    if (!profileName) return 'Resume.pdf';
+    // Convert name to filename format: "John Doe" -> "John_Doe_Resume.pdf"
+    const formattedName = profileName.replace(/\s+/g, '_');
+    return `${formattedName}_Resume.pdf`;
+  };
+
+  // Track resume download event
+  const handleResumeClick = () => {
+    // Track analytics event if gtag is available
+    if (typeof window !== 'undefined' && (window as any).gtag) {
+      (window as any).gtag('event', 'resume_download', {
+        event_category: 'engagement',
+        event_label: profileName || 'Resume',
+        page_source: pathname || '/',
+        timestamp: new Date().toISOString(),
+      });
+    }
+  };
 
   // Load theme preference from localStorage on mount
   useEffect(() => {
@@ -99,9 +121,14 @@ export default function Navigation({ resumeUrl, email, linkedin }: NavigationPro
               {resumeUrl && (
                 <a
                   href={resumeUrl}
-                  download
-                  className="px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                  download={getResumeFilename()}
+                  onClick={handleResumeClick}
+                  className="px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors inline-flex items-center gap-1"
+                  aria-label="Download resume"
                 >
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  </svg>
                   Resume
                 </a>
               )}
@@ -216,9 +243,14 @@ export default function Navigation({ resumeUrl, email, linkedin }: NavigationPro
             {resumeUrl && (
               <a
                 href={resumeUrl}
-                download
-                className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                download={getResumeFilename()}
+                onClick={handleResumeClick}
+                className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors inline-flex items-center gap-2"
+                aria-label="Download resume"
               >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
                 Resume
               </a>
             )}

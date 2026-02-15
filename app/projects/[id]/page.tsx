@@ -21,7 +21,6 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import Image from 'next/image';
 import Layout from '@/components/Layout';
 import { fetchAllProjects, fetchProjectById, fetchProfile } from '@/lib/firestore';
 import type { Project } from '@/types';
@@ -271,7 +270,7 @@ export default async function ProjectDetailPage({
         {project.images && project.images.length > 0 && (
           <section className="max-w-5xl mx-auto mb-12">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {project.images.map((image, index) => {
+              {project.images.map((_image, index) => {
                 // Generate deterministic gradient based on project title and image index
                 // This ensures consistent colors across page loads
                 const gradients = [

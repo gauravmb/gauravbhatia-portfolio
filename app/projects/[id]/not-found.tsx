@@ -24,7 +24,7 @@ export default function ProjectNotFound() {
             Project Not Found
           </h2>
           <p className="text-lg text-gray-600 dark:text-gray-400 mb-8">
-            The project you're looking for doesn't exist or is no longer available.
+            The project you&apos;re looking for doesn&apos;t exist or is no longer available.
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center">

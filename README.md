@@ -474,6 +474,7 @@ interface NavigationProps {
   resumeUrl?: string;   // Optional resume download URL
   email?: string;       // Optional email address for mailto link
   linkedin?: string;    // Optional LinkedIn profile URL
+  profileName?: string; // Optional profile name for resume filename formatting
 }
 ```
 
@@ -485,8 +486,15 @@ import Navigation from '@/components/Navigation';
   resumeUrl="/resume/Gaurav-Bhatia-CV.pdf"
   email="gauravmbhatia@icloud.com"
   linkedin="https://www.linkedin.com/in/gauravmbhatia/"
+  profileName="Gaurav Bhatia"
 />
 ```
+
+**Resume Download Enhancement:**
+- When `profileName` is provided, the downloaded resume file is automatically named using the format: `{Name}_Resume.pdf` (e.g., "Gaurav_Bhatia_Resume.pdf")
+- Spaces in the name are converted to underscores for filename compatibility
+- If `profileName` is not provided, defaults to "Resume.pdf"
+- Analytics tracking includes the profile name in the event label for better engagement metrics
 
 **Dark Mode:**
 - Automatically detects system preference on first load

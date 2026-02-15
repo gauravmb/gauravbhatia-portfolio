@@ -39,6 +39,7 @@ export default function Layout({ children, profile }: LayoutProps) {
           resumeUrl={profile?.resumeUrl}
           email={profile?.email}
           linkedin={profile?.linkedin}
+          profileName={profile?.name}
         />
         
         <main className="flex-grow bg-gray-50 dark:bg-gray-950">

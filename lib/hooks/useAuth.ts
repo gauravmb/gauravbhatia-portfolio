@@ -176,7 +176,7 @@ export function useAuth(): UseAuthReturn {
       await signOut(auth);
       
       // Auth state will be updated by onAuthStateChanged listener
-    } catch (error: any) {
+    } catch {
       const errorMessage = 'Failed to logout. Please try again.';
       
       setAuthState((prev) => ({
