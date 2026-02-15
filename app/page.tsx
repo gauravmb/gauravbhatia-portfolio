@@ -131,11 +131,22 @@ export default async function Home() {
       <section className="container mx-auto px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
         <div className="max-w-4xl mx-auto">
           <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
-            {/* Profile Avatar - Gradient placeholder */}
-            <div 
-              className="w-48 h-48 md:w-64 md:h-64 flex-shrink-0 rounded-full shadow-xl bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500"
-              aria-label={`${profile.name} profile avatar`}
-            />
+            {/* Profile Avatar - Image with gradient fallback */}
+            <div className="relative w-48 h-48 md:w-64 md:h-64 flex-shrink-0 rounded-full shadow-xl overflow-hidden">
+              {profile.avatar ? (
+                <img
+                  src={profile.avatar}
+                  alt={`${profile.name} profile picture`}
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                // Fallback gradient if no avatar URL
+                <div 
+                  className="w-full h-full bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500"
+                  aria-label={`${profile.name} profile avatar`}
+                />
+              )}
+            </div>
 
             {/* Profile Info */}
             <div className="flex-1 text-center md:text-left">

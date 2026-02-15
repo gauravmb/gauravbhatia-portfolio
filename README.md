@@ -4,6 +4,48 @@ A modern, dynamic portfolio website built with Next.js 14, TypeScript, Tailwind 
 
 ## Recent Updates
 
+**Profile Picture Implementation** - Added profile image display to home page:
+- Profile avatar now displays from local public folder (`/ProfilePic.jpeg`)
+- Uses standard HTML img tag for reliability with local images
+- Maintains circular shape with responsive sizing (192px mobile, 256px desktop)
+- Gradient fallback if no avatar URL is provided
+- No external image dependencies or Next.js Image component complexity
+- Instant loading from public folder without optimization overhead
+- Updated seed data to use local image path instead of external Unsplash URL
+
+**Navigation Component SSR Compatibility Fix** - Fixed hydration issues with dark mode:
+- Added `typeof window !== 'undefined'` checks for browser-only APIs
+- Wrapped localStorage access in client-side only blocks
+- Wrapped window.matchMedia access in client-side only blocks
+- Prevents hydration mismatches between server and client rendering
+- Dark mode toggle now works correctly with Next.js SSR
+- Theme persistence and system preference detection maintained
+- Fixes console warnings about accessing browser APIs during SSR
+
+**Firebase Emulator Setup** - Configured local development environment:
+- Created `functions/.env` file with emulator configuration
+- Updated firebase-functions to latest version (7.0.5)
+- Set Node version to 20 in functions/package.json for compatibility
+- Seeded Firestore emulator with initial portfolio data (profile + 6 projects)
+- All emulators running: Firestore, Auth, Functions, Storage, Hosting
+- Emulator UI accessible at http://localhost:4000
+
+**Home Page Image Import Cleanup** - Removed unused Next.js Image import:
+- Removed `import Image from 'next/image'` as the component uses native `<img>` tag
+- Profile avatar uses conditional rendering: native img tag when avatar URL exists, gradient placeholder otherwise
+- Maintains responsive sizing: 192px on mobile, 256px on desktop
+- Gradient fallback: `bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500`
+- No TypeScript errors or unused imports
+- Consistent with project's design pattern of using gradient placeholders
+
+**Home Page Image Component Fix** - Corrected Next.js Image component usage:
+- Fixed component name from `NextImage` to `Image` in profile avatar rendering
+- Ensures proper Next.js automatic image optimization (WebP conversion, lazy loading, responsive sizing)
+- Profile avatar correctly uses Next.js Image component with gradient fallback
+- Maintains gradient placeholder when avatar URL is not available
+- Improves performance with automatic image optimization and caching
+- Responsive sizing: 192px on mobile, 256px on desktop
+
 **Node.js Version Support Expansion** - Updated Firebase Functions to support multiple Node.js versions:
 - Added support for Node.js 20, 22, 24, and 25 in addition to Node.js 18
 - Updated `functions/package.json` engines field to: `"node": "18 || 20 || 22 || 24 || 25"`
@@ -21,6 +63,7 @@ A modern, dynamic portfolio website built with Next.js 14, TypeScript, Tailwind 
 - Removed `images.remotePatterns` configuration (no longer needed)
 - Removed image format optimization settings (WebP, AVIF)
 - Project uses gradient placeholders instead of external images for consistency
+- Profile images served from public folder (no external domain configuration required)
 - Simplified configuration reduces complexity and external dependencies
 - Cache headers retained for static asset optimization
 
@@ -1127,15 +1170,25 @@ Validates Firestore security rules for:
 
 ### Next.js Configuration (next.config.js)
 
-The project uses a minimal Next.js configuration:
+The project uses a minimal Next.js configuration focused on performance and simplicity:
 
 **React Strict Mode**: Enabled for development warnings and best practices enforcement
 
 **Cache Headers**:
-- Static assets (CSS, JS) cached for 1 year with immutable flag
+- Static assets (CSS, JS, images) cached for 1 year with immutable flag
 - Improves performance by reducing redundant downloads
+- Applies to all static file types: jpg, jpeg, gif, png, svg, webp, js, css
 
-**Design Philosophy**: The project uses gradient placeholders instead of images for visual consistency and to eliminate external dependencies. This provides instant visual feedback without network requests.
+**Design Philosophy**: 
+- Profile images are served from the public folder (no external domain configuration needed)
+- Project cards use gradient placeholders for consistent visual design
+- No external image dependencies eliminates configuration complexity
+- Provides instant visual feedback without network requests
+
+**What's NOT Configured**:
+- No `images.remotePatterns` - profile images served locally from public folder
+- No image format optimization settings - using native browser support
+- Minimal configuration reduces maintenance overhead
 
 ## Deployment
 

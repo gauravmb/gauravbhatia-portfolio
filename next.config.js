@@ -7,8 +7,8 @@
  * - React Strict Mode for development warnings
  * - Cache headers for static assets
  * 
- * Note: This project uses gradient placeholders instead of images
- * for visual consistency and to avoid external dependencies.
+ * Note: Profile images are served from the public folder
+ * and don't require external domain configuration.
  */
 
 /** @type {import('next').NextConfig} */
