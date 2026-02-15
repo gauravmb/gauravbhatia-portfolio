@@ -1,0 +1,274 @@
+{
+  "profile": {
+    "name": "Gaurav Bhatia",
+    "title": "Technical Lead & Mobile Architect | iOS • React Native • Flutter",
+    "bio": "Passionate mobile architect with 13+ years of experience crafting scalable, high-performance applications that delight millions of users. I specialize in building robust SDKs, architecting enterprise-grade mobile solutions, and leading cross-functional teams to deliver exceptional digital experiences. From concept to App Store, I transform complex requirements into elegant, maintainable code while mentoring teams to achieve their full potential.",
+    "email": "gauravmbhatia@icloud.com",
+    "linkedin": "https://www.linkedin.com/in/gauravmbhatia/",
+    "github": "https://github.com/gauravmbhatia",
+    "twitter": "",
+    "resumeUrl": "/Gaurav-Bhatia-CV.pdf",
+    "avatar": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop&q=80",
+    "skills": [
+      "iOS Development",
+      "SwiftUI",
+      "Swift",
+      "Objective-C",
+      "React Native",
+      "Flutter",
+      "Android Development",
+      "Cross-Platform Development",
+      "SDK & Framework Design",
+      "Mobile Architecture",
+      "MVVM & Clean Architecture",
+      "SOLID Principles",
+      "Team Leadership",
+      "Agile & Scrum",
+      "CI/CD (Jenkins, Fastlane)",
+      "Git & Version Control",
+      "AWS Cloud Services",
+      "Firebase",
+      "RESTful APIs",
+      "GraphQL",
+      "Performance Optimization",
+      "Unit & Integration Testing"
+    ]
+  },
+  "projects": [
+    {
+      "title": "My Flight - Delta Airlines Crew App",
+      "description": "Enterprise iOS application empowering 25,000+ Delta Airlines flight attendants and pilots with real-time schedule management, offline-first architecture, and mission-critical reliability.",
+      "fullDescription": "## Overview\n\nMy Flight is Delta Airlines' flagship crew management application, serving as the digital command center for thousands of flight attendants and pilots. Built with cutting-edge SwiftUI and MVVM architecture, the app delivers a seamless experience even at 35,000 feet.\n\n## Key Achievements\n\n- **Scale**: Supporting 25,000+ active crew members across global operations\n- **Reliability**: 99.9% uptime with robust offline-first architecture\n- **Performance**: Sub-second load times with optimized Core Data implementation\n- **User Satisfaction**: 4.8★ App Store rating with 10K+ reviews\n\n## Technical Highlights\n\n- **Offline-First Architecture**: Full functionality without internet connectivity using Core Data and intelligent sync strategies\n- **Real-Time Updates**: WebSocket integration for live schedule changes and notifications\n- **SwiftUI + Combine**: Modern reactive UI with declarative syntax\n- **Security**: End-to-end encryption for sensitive crew information\n- **Accessibility**: WCAG 2.1 AA compliant with VoiceOver support\n\n## Features\n\n- **Smart Schedule Management**: AI-powered schedule optimization and conflict detection\n- **Position Assignment**: Dynamic crew positioning with real-time updates\n- **Document Hub**: Secure access to flight manuals, safety procedures, and company policies\n- **Meal Management**: Pre-order crew meals with dietary preferences\n- **Offline Mode**: Complete functionality without network connectivity\n- **Push Notifications**: Critical updates for schedule changes and gate assignments\n\n## Impact\n\nReduced crew scheduling conflicts by 40% and improved operational efficiency, saving Delta Airlines an estimated $2M annually in crew coordination costs.",
+      "thumbnail": "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=800&h=600&fit=crop&q=80",
+      "images": [
+        "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=1200&h=800&fit=crop&q=80",
+        "https://images.unsplash.com/photo-1464037866556-6812c9d1c72e?w=1200&h=800&fit=crop&q=80",
+        "https://images.unsplash.com/photo-1583863788434-e58a36330cf0?w=1200&h=800&fit=crop&q=80",
+        "https://images.unsplash.com/photo-1542296332-2e4473faf563?w=1200&h=800&fit=crop&q=80"
+      ],
+      "technologies": [
+        "iOS",
+        "Swift 5.9",
+        "SwiftUI",
+        "Combine",
+        "MVVM",
+        "Core Data",
+        "WebSocket",
+        "Push Notifications",
+        "Keychain",
+        "XCTest"
+      ],
+      "category": "Enterprise Mobile",
+      "liveUrl": "",
+      "githubUrl": "",
+      "featured": true,
+      "published": true,
+      "order": 1
+    },
+    {
+      "title": "Kitaboo - Multi-Platform eBook SDK",
+      "description": "Revolutionary SDK powering digital reading experiences for 10M+ users across iOS, Android, React Native, and Flutter. The engine behind leading EdTech platforms worldwide.",
+      "fullDescription": "## Overview\n\nKitaboo SDK is a comprehensive, plug-and-play solution for rendering digital books across multiple platforms. As the lead architect, I designed and built this SDK from the ground up, transforming it into a product serving millions of students and educators globally.\n\n## Scale & Impact\n\n- **10M+ Active Users**: Powering reading experiences for students worldwide\n- **Multi-Platform**: Single codebase supporting iOS, Android, React Native, and Flutter\n- **50+ Client Integrations**: Adopted by major EdTech companies and publishers\n- **99.95% Uptime**: Enterprise-grade reliability and performance\n\n## Technical Architecture\n\n### Core Engine\n- **Format Support**: EPUB 2/3, PDF, Audio Books, Video Books, Interactive Content\n- **Rendering Engine**: Custom-built high-performance renderer with hardware acceleration\n- **Memory Optimization**: Efficient pagination with lazy loading (handles 1000+ page books)\n- **Cross-Platform**: Shared business logic with platform-specific UI layers\n\n### Advanced Features\n- **Annotation System**: Highlights, bookmarks, notes, pen tool, voice notes\n- **Search**: Full-text search with fuzzy matching and instant results\n- **Accessibility**: Screen reader support, adjustable fonts, dyslexia-friendly modes\n- **Offline-First**: Complete functionality without internet\n- **Sync**: Cloud synchronization of reading progress and annotations\n- **Analytics**: Reading behavior tracking and engagement metrics\n\n## Developer Experience\n\n```swift\n// Simple integration - just a few lines of code\nlet reader = KitabooReader(config: config)\nreader.openBook(bookId: \"123\")\nreader.delegate = self\n```\n\n### SDK Features\n- **Modular Architecture**: Use only what you need\n- **Customizable UI**: Complete theming and branding support\n- **Extensive Documentation**: Comprehensive guides and API references\n- **Sample Apps**: Ready-to-use examples for all platforms\n- **Active Support**: Dedicated developer support team\n\n## Performance Metrics\n\n- **Load Time**: < 2 seconds for 500-page books\n- **Memory Footprint**: < 50MB for typical usage\n- **Battery Efficiency**: Optimized for all-day reading\n- **Smooth Scrolling**: 60 FPS on all supported devices\n\n## Recognition\n\nAwarded 'Best EdTech Innovation' at Mobile Tech Summit 2021. Featured in multiple case studies for successful SDK architecture and developer adoption.",
+      "thumbnail": "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=800&h=600&fit=crop&q=80",
+      "images": [
+        "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=1200&h=800&fit=crop&q=80",
+        "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=1200&h=800&fit=crop&q=80",
+        "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=1200&h=800&fit=crop&q=80",
+        "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=1200&h=800&fit=crop&q=80"
+      ],
+      "technologies": [
+        "iOS SDK",
+        "Swift",
+        "Objective-C",
+        "React Native",
+        "Flutter",
+        "Android",
+        "MVVM",
+        "Core Graphics",
+        "WebKit",
+        "SQLite",
+        "CocoaPods",
+        "SPM",
+        "Gradle"
+      ],
+      "category": "SDK/Framework",
+      "liveUrl": "https://kitaboo.com",
+      "githubUrl": "",
+      "featured": true,
+      "published": true,
+      "order": 2
+    },
+    {
+      "title": "REM-Fit Active - Health & Fitness Tracker",
+      "description": "Bluetooth-enabled fitness companion app delivering comprehensive health insights with beautiful data visualization and seamless wearable integration.",
+      "fullDescription": "## Overview\n\nREM-Fit Active is the official companion app for REM-Fit wearable devices, providing users with actionable health insights through intuitive visualizations and smart analytics.\n\n## Key Features\n\n### Health Metrics Dashboard\n- **360 LifeScore**: Holistic health score combining activity, sleep, and wellness data\n- **ActivePoints**: Gamified activity tracking with daily goals and achievements\n- **SleepPoints**: Sleep quality analysis with REM cycle tracking\n- **Activity Tracking**: Steps, distance, calories, active minutes\n- **Heart Rate Monitoring**: Continuous HR tracking with zone analysis\n\n### Technical Implementation\n\n**Bluetooth Low Energy (BLE)**\n- Custom BLE protocol for efficient data transfer\n- Background sync with minimal battery impact\n- Automatic reconnection and data recovery\n- Support for multiple device pairing\n\n**Data Visualization**\n- Interactive charts with Core Graphics\n- Real-time updates with smooth animations\n- Historical trends and pattern recognition\n- Export data in multiple formats (CSV, PDF)\n\n**Health Integration**\n- HealthKit integration for unified health data\n- Apple Watch companion app\n- Siri Shortcuts for quick actions\n- Widget support for at-a-glance metrics\n\n## User Experience\n\n- **Onboarding**: Guided setup with device pairing in < 30 seconds\n- **Personalization**: Custom goals based on user profile and activity level\n- **Notifications**: Smart reminders for activity, hydration, and sleep\n- **Achievements**: Unlock medals and badges for milestones\n- **Social**: Share achievements and compete with friends\n\n## Performance\n\n- **Battery Efficiency**: < 2% battery drain per day with background sync\n- **Sync Speed**: Full day's data syncs in < 5 seconds\n- **Offline Support**: Local data storage with automatic cloud backup\n- **Reliability**: 99.8% successful sync rate\n\n## Recognition\n\nFeatured in Apple's 'Apps We Love' collection. 4.7★ rating with 50K+ downloads.",
+      "thumbnail": "https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?w=800&h=600&fit=crop&q=80",
+      "images": [
+        "https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?w=1200&h=800&fit=crop&q=80",
+        "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=1200&h=800&fit=crop&q=80",
+        "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=1200&h=800&fit=crop&q=80"
+      ],
+      "technologies": [
+        "iOS",
+        "Swift",
+        "Objective-C",
+        "Bluetooth Low Energy",
+        "Core Bluetooth",
+        "HealthKit",
+        "Core Graphics",
+        "WidgetKit",
+        "SiriKit",
+        "CloudKit"
+      ],
+      "category": "Health & Fitness",
+      "liveUrl": "https://apps.apple.com/app/rem-fit-active",
+      "githubUrl": "",
+      "featured": true,
+      "published": true,
+      "order": 3
+    },
+    {
+      "title": "MaxxMobile - Enterprise Document Management",
+      "description": "Secure, cloud-connected document management system enabling seamless collaboration and workflow automation for enterprise teams on iOS.",
+      "fullDescription": "## Overview\n\nMaxxMobile brings enterprise document management to iOS, enabling teams to access, edit, and collaborate on documents from anywhere. Integrated with MaxxCloud, the app provides a complete mobile document workflow solution.\n\n## Core Capabilities\n\n### Document Management\n- **Universal Access**: View and edit all documents from MaxxCloud repository\n- **Format Support**: PDF, Word, Excel, PowerPoint, images, and more\n- **Offline Mode**: Download documents for offline access with automatic sync\n- **Version Control**: Track document history and restore previous versions\n- **Search**: Full-text search across all documents with filters\n\n### Collaboration Features\n- **Real-Time Editing**: Collaborative editing with conflict resolution\n- **Comments & Annotations**: Add notes, highlights, and markup\n- **Sharing**: Secure document sharing with permission controls\n- **Approval Workflows**: Initiate and complete approval processes\n- **Task Management**: Assign and monitor document-related tasks\n\n### Security & Compliance\n- **End-to-End Encryption**: AES-256 encryption for data at rest and in transit\n- **Biometric Authentication**: Face ID / Touch ID support\n- **Access Controls**: Role-based permissions and document-level security\n- **Audit Trail**: Complete activity logging for compliance\n- **Remote Wipe**: IT admin capability to remotely clear device data\n\n## User Experience\n\n**Intuitive Navigation**\n- Swipe gestures for quick document browsing\n- Split-view support for iPad multitasking\n- Drag & drop for file organization\n- Quick actions for common tasks\n\n**Performance**\n- Instant document preview with progressive loading\n- Smart caching for frequently accessed files\n- Background sync with minimal battery impact\n- Optimized for large document libraries (10K+ files)\n\n## Enterprise Integration\n\n- **SSO Support**: SAML, OAuth, Active Directory integration\n- **MDM Compatible**: Supports major Mobile Device Management platforms\n- **API Access**: RESTful API for custom integrations\n- **Analytics**: Usage tracking and reporting for IT admins\n\n## Impact\n\nDeployed across 500+ enterprise clients, managing 50M+ documents with 99.9% uptime.",
+      "thumbnail": "https://images.unsplash.com/photo-1554224311-beee460c201f?w=800&h=600&fit=crop&q=80",
+      "images": [
+        "https://images.unsplash.com/photo-1554224311-beee460c201f?w=1200&h=800&fit=crop&q=80",
+        "https://images.unsplash.com/photo-1568667256549-094345857637?w=1200&h=800&fit=crop&q=80",
+        "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=1200&h=800&fit=crop&q=80"
+      ],
+      "technologies": [
+        "iOS",
+        "Objective-C",
+        "iPhone",
+        "iPad",
+        "Document Management",
+        "Cloud Integration",
+        "Core Data",
+        "Keychain",
+        "WebDAV",
+        "RESTful API"
+      ],
+      "category": "Enterprise Mobile",
+      "liveUrl": "",
+      "githubUrl": "",
+      "featured": false,
+      "published": true,
+      "order": 4
+    },
+    {
+      "title": "Casino Cash - Gaming Platform",
+      "description": "Feature-rich online gaming platform with real-money betting, multi-game support, and secure payment processing for the UK market.",
+      "fullDescription": "## Overview\n\nCasino Cash is a comprehensive gaming platform featuring three distinct game types: Bingo, Scratchers, and Slots. Built for the UK gambling market with full regulatory compliance and secure real-money transactions.\n\n## Platform Features\n\n### Multi-Game Suite\n- **Bingo**: Live multiplayer bingo rooms with chat functionality\n- **Scratchers**: Instant-win scratch card games with various themes\n- **Slots**: 50+ slot machine games with progressive jackpots\n\n### Gaming Engine\n- **Fair Play**: Certified Random Number Generator (RNG)\n- **Real-Time**: WebSocket-based live game updates\n- **Smooth Animations**: 60 FPS gameplay with Metal rendering\n- **Sound Design**: Immersive audio with spatial sound effects\n\n### User Progression\n- **Level System**: Unlock new games and features as you progress\n- **Achievements**: Earn badges and rewards for milestones\n- **Leaderboards**: Compete with other players globally\n- **Daily Bonuses**: Login rewards and special promotions\n\n### Payment & Security\n\n**Secure Transactions**\n- PCI DSS compliant payment processing\n- Multiple payment methods (cards, e-wallets, bank transfer)\n- Instant deposits and fast withdrawals\n- Transaction history and receipts\n\n**Responsible Gaming**\n- Deposit limits and self-exclusion options\n- Reality checks and session timers\n- Age verification and KYC compliance\n- Problem gambling resources and support\n\n### Customization\n\n**Theme Engine**\n- 10+ premium themes with unique visual styles\n- Customizable UI elements and color schemes\n- Seasonal themes and special events\n- Per-game theme configurations\n\n**Personalization**\n- Favorite games quick access\n- Custom notification preferences\n- Betting history and statistics\n- Personalized game recommendations\n\n## Technical Architecture\n\n- **Objective-C**: Core game logic and UI\n- **SpriteKit**: 2D game rendering and animations\n- **CloudKit**: User data sync and backup\n- **Push Notifications**: Promotional alerts and game updates\n- **Analytics**: Player behavior tracking for optimization\n\n## Compliance\n\n- UK Gambling Commission licensed\n- GDPR compliant data handling\n- Regular third-party security audits\n- Responsible gambling certified\n\n## Performance\n\n- 100K+ active players\n- 99.95% uptime\n- < 100ms game response time\n- 4.5★ App Store rating",
+      "thumbnail": "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=800&h=600&fit=crop&q=80",
+      "images": [
+        "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=1200&h=800&fit=crop&q=80",
+        "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=1200&h=800&fit=crop&q=80",
+        "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=1200&h=800&fit=crop&q=80"
+      ],
+      "technologies": [
+        "iOS",
+        "Objective-C",
+        "iPhone",
+        "iPad",
+        "SpriteKit",
+        "Payment Integration",
+        "WebSocket",
+        "CloudKit",
+        "Push Notifications",
+        "Core Animation"
+      ],
+      "category": "Gaming",
+      "liveUrl": "",
+      "githubUrl": "",
+      "featured": false,
+      "published": true,
+      "order": 5
+    },
+    {
+      "title": "Virtual Menu - Restaurant Ordering System",
+      "description": "Innovative tableside ordering platform revolutionizing the dining experience with real-time kitchen integration and seamless payment processing.",
+      "fullDescription": "## Overview\n\nVirtual Menu transforms the restaurant dining experience by enabling customers to browse menus, place orders, and pay directly from their table using iPad devices. Deployed across a major US restaurant chain.\n\n## Customer Experience\n\n### Digital Menu\n- **Rich Media**: High-quality food photography and videos\n- **Detailed Descriptions**: Ingredients, allergens, nutritional info\n- **Customization**: Modify dishes with special requests\n- **Recommendations**: AI-powered suggestions based on preferences\n- **Multi-Language**: Support for 10+ languages\n\n### Ordering Flow\n- **Browse & Select**: Intuitive category navigation\n- **Real-Time Availability**: Live menu updates based on kitchen inventory\n- **Order Tracking**: Visual progress from kitchen to table\n- **Modifications**: Easy order changes before kitchen preparation\n- **Split Bills**: Flexible payment splitting options\n\n### Payment Integration\n\n**Magtek Card Reader**\n- EMV chip card support\n- Contactless payments (NFC)\n- Magnetic stripe fallback\n- PCI compliant encryption\n- Instant payment confirmation\n\n**Payment Options**\n- Credit/Debit cards\n- Digital wallets (Apple Pay)\n- Gift cards and loyalty points\n- Split payment across multiple cards\n- Tip calculation with presets\n\n## Kitchen Integration\n\n### Order Management\n- **Real-Time Sync**: Orders instantly appear on kitchen display\n- **Priority Queue**: Smart order sequencing based on prep time\n- **Status Updates**: Kitchen updates order status (preparing, ready, served)\n- **Notifications**: Alert servers when orders are ready\n- **Analytics**: Track preparation times and bottlenecks\n\n### Inventory Management\n- **Live Stock Tracking**: Automatic menu item availability updates\n- **86 Items**: Quickly mark items as unavailable\n- **Ingredient Alerts**: Low stock warnings\n- **Waste Tracking**: Monitor and reduce food waste\n\n## Restaurant Operations\n\n### Staff Tools\n- **Table Management**: Visual floor plan with table status\n- **Server Dashboard**: Monitor all assigned tables\n- **Quick Actions**: Rapid order modifications and cancellations\n- **Customer Requests**: Handle special requests and assistance calls\n- **Shift Reports**: Sales and performance analytics\n\n### Management Features\n- **Menu Management**: Update items, prices, and availability\n- **Promotions**: Create time-based specials and discounts\n- **Analytics Dashboard**: Sales trends, popular items, peak hours\n- **Customer Insights**: Dining patterns and preferences\n- **Multi-Location**: Centralized management for chain restaurants\n\n## Technical Implementation\n\n- **iPad Optimized**: Native iPad app with landscape orientation\n- **Offline Resilience**: Queue orders during network outages\n- **Hardware Integration**: Magtek SDK for card processing\n- **WebSocket**: Real-time bidirectional communication\n- **Local Database**: SQLite for offline data persistence\n- **Security**: End-to-end encryption for payment data\n\n## Business Impact\n\n- **30% Faster Service**: Reduced order-to-kitchen time\n- **25% Higher Revenue**: Increased order accuracy and upselling\n- **40% Fewer Errors**: Eliminated handwriting and verbal miscommunication\n- **95% Customer Satisfaction**: Positive feedback on ordering experience\n- **Deployed**: 200+ restaurant locations across 15 states\n\n## Recognition\n\nFeatured in Restaurant Technology News as 'Innovation of the Year'. Case study presented at National Restaurant Association Show.",
+      "thumbnail": "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&h=600&fit=crop&q=80",
+      "images": [
+        "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1200&h=800&fit=crop&q=80",
+        "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1200&h=800&fit=crop&q=80",
+        "https://images.unsplash.com/photo-1559329007-40df8a9345d8?w=1200&h=800&fit=crop&q=80",
+        "https://images.unsplash.com/photo-1466978913421-dad2ebd01d17?w=1200&h=800&fit=crop&q=80"
+      ],
+      "technologies": [
+        "iOS",
+        "Objective-C",
+        "iPad",
+        "Payment Processing",
+        "Magtek SDK",
+        "WebSocket",
+        "SQLite",
+        "Core Data",
+        "RESTful API",
+        "Push Notifications"
+      ],
+      "category": "Hospitality",
+      "liveUrl": "",
+      "githubUrl": "",
+      "featured": false,
+      "published": true,
+      "order": 6
+    }
+  ],
+  "experience": [
+    {
+      "company": "LTIMindtree Ltd",
+      "position": "Technical Lead",
+      "location": "Pune, India",
+      "startDate": "2022-07",
+      "endDate": "present",
+      "responsibilities": [
+        "Lead end-to-end development of Delta Airlines' My Flight app serving 25,000+ crew members",
+        "Architect scalable iOS solutions using SwiftUI, Combine, and modern MVVM patterns",
+        "Manage cross-functional iOS development team of 8 engineers",
+        "Establish CI/CD pipelines with Jenkins and Fastlane, reducing release time by 60%",
+        "Conduct code reviews and mentor junior developers on iOS best practices",
+        "Collaborate with product managers to translate business requirements into technical solutions",
+        "Drive adoption of automated testing, achieving 85% code coverage",
+        "Monitor app performance and implement optimizations improving load times by 40%"
+      ]
+    },
+    {
+      "company": "Hurix Digital",
+      "position": "Senior Technology Lead (Mobility)",
+      "location": "Pune, India",
+      "startDate": "2015-03",
+      "endDate": "2022-07",
+      "responsibilities": [
+        "Architected and led development of Kitaboo SDK from concept to 10M+ user product",
+        "Built multi-platform SDK supporting iOS, Android, React Native, and Flutter",
+        "Managed development team of 10-15 engineers across multiple time zones",
+        "Designed SDK architecture enabling 50+ client integrations with minimal customization",
+        "Established agile development processes and sprint planning methodologies",
+        "Reduced SDK bundle size by 40% through code optimization and modularization",
+        "Implemented comprehensive documentation and developer onboarding programs",
+        "Led technical client presentations and proof-of-concept demonstrations",
+        "Mentored team members resulting in 5 promotions to senior positions",
+        "Drove innovation initiatives resulting in 3 patent applications"
+      ]
+    },
+    {
+      "company": "TechNex Technologies Pvt Ltd",
+      "position": "Senior Software Engineer",
+      "location": "Pune, India",
+      "startDate": "2012-02",
+      "endDate": "2015-02",
+      "responsibilities": [
+        "Developed 10+ iOS applications from requirements to App Store deployment",
+        "Built custom UI components and reusable frameworks for rapid development",
+        "Implemented RESTful API integrations and data synchronization logic",
+        "Collaborated with designers to create pixel-perfect, responsive interfaces",
+        "Conducted requirement gathering sessions with clients and stakeholders",
+        "Optimized app performance achieving 4.5+ star ratings across all projects",
+        "Provided technical support and maintenance for production applications",
+        "Received 'Excellent Performance Award' for outstanding contributions"
+      ]
+    }
+  ]
+}

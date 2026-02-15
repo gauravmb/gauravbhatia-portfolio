@@ -1,0 +1,32 @@
+{
+  "enabled": true,
+  "name": "Update Docs on Source Change",
+  "description": "Monitors source files (*.ts, *.tsx, *.js, *.jsx, *.py, *.go, *.rs, *.java, *.cpp, *.c) and prompts the agent to update README.md or /docs folder when changes are detected",
+  "version": "1",
+  "when": {
+    "type": "fileEdited",
+    "patterns": [
+      "*.ts",
+      "*.tsx",
+      "*.js",
+      "*.jsx",
+      "*.py",
+      "*.go",
+      "*.rs",
+      "*.java",
+      "*.cpp",
+      "*.c",
+      "*.h",
+      "*.hpp",
+      "package.json",
+      "requirements.txt",
+      "Cargo.toml",
+      "go.mod",
+      "pyproject.toml"
+    ]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "A source file has been modified. Please review the changes and update the documentation accordingly. If README.md exists, update it with relevant information about the changes. If a /docs folder exists, update the appropriate documentation files there. If README.md doesn't exist, create it with project documentation including the recent changes."
+  }
+}

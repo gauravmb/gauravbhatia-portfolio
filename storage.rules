@@ -1,0 +1,51 @@
+/**
+ * Firebase Storage Security Rules
+ * 
+ * Purpose: Define access control for file storage across the portfolio website
+ * 
+ * Structure:
+ * - /projects/{projectId}/* - Project images and assets
+ * - /profile/* - Profile avatar and resume PDF
+ * - /temp/* - Temporary uploads (requires manual cleanup via Cloud Functions)
+ * 
+ * Requirements: 15.4
+ */
+
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    
+    /**
+     * Projects Folder Rules
+     * - Public read: Anyone can view project images
+     * - Authenticated write: Only authenticated users can upload/modify
+     * - Use case: Project thumbnails, galleries, and related assets
+     */
+    match /projects/{allPaths=**} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+    
+    /**
+     * Profile Folder Rules
+     * - Public read: Anyone can view profile avatar and resume
+     * - Authenticated write: Only authenticated users can upload/modify
+     * - Use case: Profile avatar image and resume PDF
+     */
+    match /profile/{allPaths=**} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+    
+    /**
+     * Temp Folder Rules
+     * - Authenticated read/write: Only authenticated users can access
+     * - Use case: Temporary file uploads during admin operations
+     * - Note: TTL cleanup should be implemented via Cloud Functions or Storage lifecycle rules
+     *   to automatically delete files older than 24 hours
+     */
+    match /temp/{allPaths=**} {
+      allow read, write: if request.auth != null;
+    }
+  }
+}
