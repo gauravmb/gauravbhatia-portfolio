@@ -85,7 +85,30 @@ Edit `.firebaserc` and replace `your-project-id` with your actual Firebase proje
 
 The admin interface uses Firebase Authentication to protect endpoints. The authentication middleware (`functions/src/middleware/auth.ts`) verifies Bearer tokens for all admin operations.
 
-To create an admin user:
+#### Option 1: Create Admin User with Script (Recommended for Local Development)
+
+For local development with Firebase Emulator:
+
+```bash
+# Make sure emulator is running first
+npm run emulators
+
+# In another terminal, create admin user
+npm run create-admin
+```
+
+This creates a test admin user with these credentials:
+- **Email**: `admin@test.com`
+- **Password**: `admin123456`
+
+You can customize the credentials:
+```bash
+ADMIN_EMAIL=your@email.com ADMIN_PASSWORD=yourpassword npm run create-admin
+```
+
+#### Option 2: Create Admin User via Firebase Console (Production)
+
+For production Firebase:
 1. Go to Firebase Console → Authentication
 2. Enable Email/Password sign-in method
 3. Add a user with your admin email and password
