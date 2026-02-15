@@ -4,6 +4,13 @@ A modern, dynamic portfolio website built with Next.js 14, TypeScript, Tailwind 
 
 ## Recent Updates
 
+**Node.js Version Support Expansion** - Updated Firebase Functions to support multiple Node.js versions:
+- Added support for Node.js 20, 22, 24, and 25 in addition to Node.js 18
+- Updated `functions/package.json` engines field to: `"node": "18 || 20 || 22 || 24 || 25"`
+- Provides flexibility for developers using different Node.js versions
+- Ensures compatibility with latest Node.js LTS and current releases
+- Firebase Functions runtime supports all specified versions
+
 **Project Detail Page Image Gallery Fix** - Fixed missing Next.js Image import:
 - Added missing `import Image from 'next/image'` to project detail page
 - Resolved TypeScript errors for Image component usage in gallery section
@@ -75,7 +82,7 @@ A modern, dynamic portfolio website built with Next.js 14, TypeScript, Tailwind 
 
 ## Prerequisites
 
-- Node.js 18+ and npm
+- Node.js 18, 20, 22, 24, or 25 and npm
 - Firebase CLI (`npm install -g firebase-tools`)
 - A Firebase project
 

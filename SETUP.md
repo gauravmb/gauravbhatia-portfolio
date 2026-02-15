@@ -6,7 +6,7 @@ This guide will help you get the portfolio website up and running.
 
 Before you begin, ensure you have the following installed:
 
-- **Node.js 18+** and npm
+- **Node.js 18, 20, 22, 24, or 25** and npm
 - **Firebase CLI**: Install with `npm install -g firebase-tools`
 - A **Firebase project** (create one at https://console.firebase.google.com)
 
