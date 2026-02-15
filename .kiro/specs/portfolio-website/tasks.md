@@ -477,13 +477,13 @@ This plan covers all 15 requirements and implements 43 correctness properties th
     - _Requirements: 12.2_
 
 - [ ] 21. Create Admin Dashboard
-  - [ ] 21.1 Create AdminLayout component
+  - [x] 21.1 Create AdminLayout component
     - Protected route with authentication check
     - Sidebar navigation
     - Logout button
     - _Requirements: 11.1_
   
-  - [ ] 21.2 Create ProjectsList component
+  - [x] 21.2 Create ProjectsList component
     - Display all projects (published and drafts)
     - Add edit and delete buttons
     - _Requirements: 11.1_

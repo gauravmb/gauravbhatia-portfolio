@@ -4,6 +4,45 @@ A modern, dynamic portfolio website built with Next.js 14, TypeScript, Tailwind 
 
 ## Recent Updates
 
+**Admin Projects Page** - Added comprehensive project management interface:
+- New page: `app/admin/projects/page.tsx` for managing all portfolio projects
+- New component: `components/ProjectsList.tsx` for displaying and managing projects
+- Displays all projects (published and drafts) in a table format
+- Status indicators: Published/Draft badges, Featured star badge
+- Edit functionality: Navigate to edit page for each project
+- Delete functionality: Confirmation dialog with loading state
+- Create new project button with navigation to creation page
+- Loading states with spinner during data fetch
+- Error states with retry functionality
+- Empty state with call-to-action to create first project
+- Responsive table layout with thumbnail preview
+- Dark mode support with consistent styling
+- Implements Requirements 11.1 (admin interface for content management)
+- Direct Firestore integration for real-time project management
+
+**Admin Layout Component** - Added comprehensive admin panel layout with authentication protection:
+- New component: `components/AdminLayout.tsx` for wrapping all admin pages
+- Protected route with automatic authentication check and redirect to login
+- Responsive sidebar navigation with mobile hamburger menu
+- Navigation links: Dashboard, Projects, Inquiries, Profile
+- User info display with email and logout button
+- Logout confirmation dialog with loading state
+- Mobile overlay for sidebar with smooth transitions
+- Dark mode support with consistent styling
+- Implements Requirements 11.1 (admin interface with authentication)
+- Provides consistent layout structure for all admin pages
+- Automatic redirect to login page for unauthenticated users
+
+**Admin Login Page Tests** - Added comprehensive unit tests for authentication error handling:
+- New test file: `app/admin/login/__tests__/login.test.tsx` with 8 test cases
+- Tests authentication error display (invalid credentials, disabled account, too many attempts)
+- Tests form validation (empty fields, invalid email format)
+- Tests loading states and form disabling during submission
+- Tests error clearing when user retries after failure
+- Validates Requirements 12.2 (API error message display)
+- Uses React Testing Library with mocked useAuth hook
+- Ensures user-friendly error messages are displayed correctly
+
 **Admin User Creation Script** - Added automated script for creating admin users:
 - New script: `scripts/create-admin-user.js` for creating admin users in Firebase Auth
 - Works with both Firebase Emulator (local development) and production Firebase
@@ -813,6 +852,260 @@ window.gtag('event', 'project_view', {
 - 8.7: Unique page titles and descriptions
 - 10.3: Analytics event tracking for project views
 
+### ProjectsList Component
+
+The ProjectsList component (`components/ProjectsList.tsx`) displays and manages all portfolio projects in the admin interface with full CRUD capabilities.
+
+**Architecture:**
+- **Client Component**: Uses Firestore directly for real-time data access
+- **Admin-Only**: Fetches all projects including unpublished drafts
+- **State Management**: Local state for projects, loading, and error handling
+- **Navigation Integration**: Uses Next.js router for page transitions
+
+**Key Features:**
+- **Complete Project List**: Displays all projects (published and drafts) ordered by creation date
+- **Status Indicators**: Visual badges for Published/Draft and Featured status
+- **Thumbnail Preview**: Shows project thumbnail in table row
+- **Edit Functionality**: Navigate to edit page for each project
+- **Delete Functionality**: Confirmation dialog with loading state during deletion
+- **Create New Project**: Button to navigate to project creation page
+- **Loading States**: Spinner during initial data fetch
+- **Error Handling**: Error message with retry button
+- **Empty State**: Friendly message with call-to-action when no projects exist
+- **Responsive Table**: Horizontal scroll on mobile devices
+- **Dark Mode Support**: Consistent styling across themes
+
+**Data Fetching:**
+```typescript
+// Fetches ALL projects (including unpublished) for admin view
+async function fetchAllProjectsAdmin(): Promise<Project[]> {
+  const projectsRef = collection(db, 'projects');
+  const q = query(projectsRef, orderBy('createdAt', 'desc'));
+  const querySnapshot = await getDocs(q);
+  return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+}
+```
+
+**Table Structure:**
+
+1. **Project Column**
+   - Thumbnail image (12x12, rounded corners)
+   - Project title (bold, primary text)
+   - Description (truncated with line-clamp-1)
+   - Hover effect on entire row
+
+2. **Category Column**
+   - Badge-style display with rounded pill shape
+   - Gray background for neutral appearance
+   - Consistent with other badge components
+
+3. **Status Column**
+   - **Published Badge**: Green background with checkmark icon
+   - **Draft Badge**: Yellow background with warning icon
+   - **Featured Badge**: Blue background with star icon (when applicable)
+   - Stacked vertically for multiple status indicators
+
+4. **Updated Date Column**
+   - Formatted date (e.g., "Jan 15, 2024")
+   - Uses Intl.DateTimeFormat for localization
+   - Gray text for secondary information
+
+5. **Actions Column**
+   - **Edit Button**: Blue background, navigates to edit page
+   - **Delete Button**: Red background, shows confirmation dialog
+   - Loading state during deletion ("Deleting..." text)
+   - Disabled state prevents multiple delete clicks
+
+**Delete Confirmation Flow:**
+
+1. User clicks Delete button
+2. Browser confirmation dialog: "Are you sure you want to delete '{title}'? This action cannot be undone."
+3. If confirmed:
+   - Sets deletingId state to show loading
+   - Calls deleteDoc on Firestore
+   - Removes project from local state
+   - Shows success alert
+4. If cancelled: No action taken
+5. Error handling: Shows error alert and resets state
+
+**Empty State:**
+- Large folder emoji icon (📁)
+- Heading: "No Projects Yet"
+- Descriptive text: "Get started by creating your first project."
+- Call-to-action button: "Create Project" (navigates to /admin/projects/new)
+- Centered layout with white card background
+
+**Error State:**
+- Uses ErrorMessage component for consistent styling
+- "Try Again" button to retry data fetch
+- Preserves error message for user feedback
+- Blue button with hover effect
+
+**Loading State:**
+- Centered LoadingSpinner component
+- Displayed during initial data fetch
+- Prevents interaction until data is loaded
+
+**Usage:**
+```typescript
+import ProjectsList from '@/components/ProjectsList';
+
+export default function AdminProjectsPage() {
+  return (
+    <AdminLayout>
+      <div className="max-w-7xl mx-auto">
+        <h1>Projects</h1>
+        <ProjectsList />
+      </div>
+    </AdminLayout>
+  );
+}
+```
+
+**Performance Considerations:**
+- Direct Firestore queries (no caching for admin interface)
+- Optimistic UI updates after deletion (removes from local state immediately)
+- Efficient re-renders with proper state management
+- Timestamp conversion handled once during data fetch
+
+**Accessibility:**
+- Semantic HTML with table structure
+- ARIA labels for action buttons
+- Keyboard-accessible buttons
+- Screen reader friendly status indicators
+- Proper heading hierarchy
+
+**Visual Features:**
+- Hover effects on table rows (gray background)
+- Smooth transitions for all interactive elements
+- Consistent spacing and padding
+- Border styling for visual separation
+- Badge colors follow semantic meaning (green=success, yellow=warning, blue=info, red=danger)
+
+**Requirements Validated:**
+- 11.1: Admin interface for creating, editing, and deleting projects
+- 11.5: Draft visibility control (shows both published and draft projects)
+- 12.2: Error message display for failed operations
+- 13.3: Keyboard accessibility for all interactive elements
+
+### AdminLayout Component
+
+The AdminLayout component (`components/AdminLayout.tsx`) provides a consistent layout structure for all admin pages with authentication protection and navigation.
+
+**Architecture:**
+- **Client Component**: Uses Firebase Authentication for protected routes
+- **Authentication Hook**: Leverages useAuth hook for state management
+- **Automatic Redirects**: Redirects unauthenticated users to login page
+- **Responsive Design**: Mobile-first with collapsible sidebar
+
+**Key Features:**
+- **Protected Routes**: Automatically checks authentication state on mount
+- **Sidebar Navigation**: Links to Dashboard, Projects, Inquiries, and Profile sections
+- **User Information**: Displays signed-in user email
+- **Logout Functionality**: Confirmation dialog with loading state
+- **Mobile Support**: Hamburger menu with overlay for mobile devices
+- **Dark Mode**: Consistent styling across light and dark themes
+- **Loading States**: Shows spinner while checking authentication
+
+**Navigation Items:**
+```typescript
+const navItems: NavItem[] = [
+  { label: 'Dashboard', href: '/admin/dashboard', icon: '📊' },
+  { label: 'Projects', href: '/admin/projects', icon: '💼' },
+  { label: 'Inquiries', href: '/admin/inquiries', icon: '📧' },
+  { label: 'Profile', href: '/admin/profile', icon: '👤' },
+];
+```
+
+**Usage:**
+```typescript
+import AdminLayout from '@/components/AdminLayout';
+
+export default function AdminDashboard() {
+  return (
+    <AdminLayout>
+      <h1>Dashboard</h1>
+      <div>Admin content here...</div>
+    </AdminLayout>
+  );
+}
+```
+
+**Authentication Flow:**
+
+1. **Initial Load**
+   - Checks authentication state using useAuth hook
+   - Shows loading spinner while checking auth state
+   - Redirects to `/admin/login` if user is not authenticated
+
+2. **Authenticated State**
+   - Renders sidebar with navigation links
+   - Highlights active page based on current pathname
+   - Displays user email in sidebar footer
+   - Renders child components in main content area
+
+3. **Logout Process**
+   - Shows confirmation dialog: "Are you sure you want to logout?"
+   - Displays loading state with animated spinner
+   - Calls Firebase Auth logout
+   - Redirects to `/admin/login` on success
+   - Shows error alert if logout fails
+
+**Layout Structure:**
+
+1. **Mobile Menu Button** (visible on screens < 1024px)
+   - Fixed at top of screen
+   - Toggles sidebar visibility
+   - Hamburger icon (open) / X icon (close)
+
+2. **Sidebar** (fixed on desktop, slide-in on mobile)
+   - **Header**: "Admin Panel" title with close button (mobile only)
+   - **Navigation**: List of admin section links with icons
+   - **Active State**: Blue background and text for current page
+   - **User Info**: Signed-in email display
+   - **Logout Button**: Red text with logout icon
+
+3. **Overlay** (mobile only)
+   - Semi-transparent black background
+   - Closes sidebar when clicked
+   - Only visible when sidebar is open
+
+4. **Main Content Area**
+   - Offset by sidebar width on desktop (ml-64)
+   - Full width on mobile with top padding
+   - Renders child components passed to AdminLayout
+
+**Responsive Behavior:**
+- **Desktop (lg+)**: Sidebar always visible, fixed position
+- **Mobile (<lg)**: Sidebar hidden by default, slides in from left
+- **Transitions**: Smooth 300ms ease-in-out animations
+
+**Visual Features:**
+- **Icons**: Emoji icons for visual identification of sections
+- **Hover Effects**: Background color changes on navigation links
+- **Active State**: Blue accent color for current page
+- **Border Styling**: Subtle borders for visual separation
+- **Typography**: Clear hierarchy with proper font sizes
+
+**Accessibility:**
+- Semantic HTML with nav and aside elements
+- ARIA labels for toggle buttons
+- Keyboard-accessible navigation
+- Screen reader friendly structure
+- Focus management for interactive elements
+
+**Security Features:**
+- Automatic authentication check on every render
+- Redirects unauthenticated users immediately
+- No admin content rendered without valid authentication
+- Logout confirmation prevents accidental sign-outs
+
+**Requirements Validated:**
+- 11.1: Admin interface for content management
+- 11.4: Authentication protection for admin interface
+- 13.3: Keyboard accessibility for all interactive elements
+- 14.3: Dark mode support with theme persistence
+
 ### Admin Login Page
 
 The Admin Login Page (`app/admin/login/page.tsx`) provides a secure authentication interface for admin users to access the admin dashboard.
@@ -1203,6 +1496,7 @@ The project uses separate test configurations for frontend and backend:
   - Excludes: `/functions/` directory
   - Coverage collection: Enabled for all source files in `app/`, `components/`, and `lib/`
   - Coverage thresholds: Set to 0% (incremental development approach - tests added as needed)
+  - **Component Tests**: Admin login page tests validate authentication error handling (Requirements 12.2)
 
 - **Backend tests** (Jest): Located in `functions/src/__tests__/` directory
   - Configuration: `functions/jest.config.js` (Node.js environment)
@@ -1216,6 +1510,7 @@ The project follows an incremental testing approach where:
 - Core business logic and data access layers have comprehensive test coverage
 - Property-based tests validate universal correctness properties
 - Component tests are added as needed based on complexity and risk
+- Admin interface components include error handling tests for user feedback validation
 - Coverage thresholds are intentionally set to 0 to allow flexible, incremental test development
 
 ### API Testing
