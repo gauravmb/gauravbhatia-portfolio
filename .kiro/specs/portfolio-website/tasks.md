@@ -472,7 +472,7 @@ This plan covers all 15 requirements and implements 43 correctness properties th
     - Redirect to admin dashboard on success
     - _Requirements: 11.4_
   
-  - [ ] 20.2 Add error handling
+  - [x] 20.2 Add error handling
     - Display authentication errors
     - _Requirements: 12.2_
 

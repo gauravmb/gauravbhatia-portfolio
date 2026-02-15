@@ -94,7 +94,7 @@ For local development with Firebase Emulator:
 npm run emulators
 
 # In another terminal, create admin user
-npm run create-admin
+USE_EMULATOR=true node scripts/create-admin-user.js
 ```
 
 This creates a test admin user with these credentials:
@@ -103,18 +103,38 @@ This creates a test admin user with these credentials:
 
 You can customize the credentials:
 ```bash
-ADMIN_EMAIL=your@email.com ADMIN_PASSWORD=yourpassword npm run create-admin
+ADMIN_EMAIL=your@email.com ADMIN_PASSWORD=yourpassword USE_EMULATOR=true node scripts/create-admin-user.js
 ```
 
-#### Option 2: Create Admin User via Firebase Console (Production)
+#### Option 2: Create Admin User via Script (Production)
 
 For production Firebase:
-1. Go to Firebase Console → Authentication
-2. Enable Email/Password sign-in method
-3. Add a user with your admin email and password
-4. Use these credentials to log in to the admin interface
 
-All admin API endpoints (create/update/delete projects, image upload) require a valid Firebase Auth token in the Authorization header.
+1. Download your service account key from Firebase Console:
+   - Go to Project Settings → Service Accounts
+   - Click "Generate New Private Key"
+   - Save as `serviceAccountKey.json` in project root
+   - **Important**: Add `serviceAccountKey.json` to `.gitignore` (already included)
+
+2. Run the admin user creation script:
+```bash
+node scripts/create-admin-user.js
+```
+
+Or with custom credentials:
+```bash
+ADMIN_EMAIL=your@email.com ADMIN_PASSWORD=yourpassword node scripts/create-admin-user.js
+```
+
+3. The script will:
+   - Create a new admin user if one doesn't exist
+   - Update the password if the user already exists
+   - Enable email verification automatically
+   - Display the login credentials and URL
+
+4. Navigate to http://localhost:3000/admin/login (or your production URL) and sign in with the credentials
+
+**Note**: All admin API endpoints (create/update/delete projects, image upload) require a valid Firebase Auth token in the Authorization header.
 
 ### 6. Login to Firebase
 

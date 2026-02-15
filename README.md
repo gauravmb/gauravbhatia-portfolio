@@ -4,6 +4,16 @@ A modern, dynamic portfolio website built with Next.js 14, TypeScript, Tailwind 
 
 ## Recent Updates
 
+**Admin User Creation Script** - Added automated script for creating admin users:
+- New script: `scripts/create-admin-user.js` for creating admin users in Firebase Auth
+- Works with both Firebase Emulator (local development) and production Firebase
+- Automatically detects existing users and updates passwords
+- Supports custom credentials via environment variables (ADMIN_EMAIL, ADMIN_PASSWORD)
+- Default credentials: admin@test.com / admin123456
+- Provides clear success/error messages and troubleshooting guidance
+- Simplifies admin setup for both development and production environments
+- Updated documentation in README.md, SETUP.md, and scripts/README.md
+
 **Admin Login Page Implementation** - Added authentication interface for admin access:
 - Email/password login form with Firebase Authentication integration
 - Client-side validation for email format and required fields
@@ -811,6 +821,7 @@ The Admin Login Page (`app/admin/login/page.tsx`) provides a secure authenticati
 - **Client Component**: Uses Firebase Authentication for email/password sign-in
 - **Authentication Hook**: Leverages useAuth hook for state management
 - **Automatic Redirects**: Redirects to dashboard if already authenticated
+- **Comprehensive Testing**: Unit tests validate error handling and user feedback (Requirements 12.2)
 
 **Key Features:**
 - **Email/Password Authentication**: Firebase Auth integration with secure sign-in
@@ -892,8 +903,53 @@ The Admin Login Page (`app/admin/login/page.tsx`) provides a secure authenticati
 - ARIA attributes for loading states
 - Focus management for form inputs
 
+**Test Coverage:**
+
+The admin login page includes comprehensive unit tests (`app/admin/login/__tests__/login.test.tsx`) that validate:
+
+1. **Authentication Error Display** (Requirements 12.2)
+   - Invalid credentials error messages
+   - Disabled account error messages
+   - Too many attempts error messages
+   - Error clearing when user retries
+
+2. **Form Validation**
+   - Empty email field validation
+   - Invalid email format validation
+   - Empty password field validation
+
+3. **Loading States**
+   - Loading spinner during authentication
+   - Form inputs disabled during submission
+   - Submit button disabled during submission
+
+4. **User Experience**
+   - Error messages are user-friendly and specific
+   - Form state is preserved during errors
+   - Clear visual feedback for all states
+
+**Test Implementation:**
+```typescript
+// Example test: Authentication error display
+it('displays authentication error when login fails with invalid credentials', async () => {
+  (useAuth as jest.Mock).mockReturnValue({
+    user: null,
+    loading: false,
+    error: 'Invalid email or password.',
+    login: mockLogin,
+    logout: jest.fn(),
+    clearError: mockClearError,
+  });
+
+  render(<AdminLoginPage />);
+
+  expect(screen.getByText('Invalid email or password.')).toBeInTheDocument();
+});
+```
+
 **Requirements Validated:**
 - 11.4: Admin authentication protection for admin interface
+- 12.2: API error message display to users
 - 13.3: Keyboard accessibility for all interactive elements
 - 14.3: Dark mode support with theme persistence
 
