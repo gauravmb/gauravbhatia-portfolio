@@ -962,9 +962,11 @@ This project uses Jest for unit testing and fast-check for property-based testin
 The project uses separate test configurations for frontend and backend:
 
 - **Frontend tests** (Jest): Located in `app/`, `components/`, and `lib/` directories
-  - Configuration: `jest.config.js` (Next.js integration)
+  - Configuration: `jest.config.js` (Next.js integration with jsdom environment)
   - Test files: `*.test.ts`, `*.test.tsx`
   - Excludes: `/functions/` directory
+  - Coverage collection: Enabled for all source files in `app/`, `components/`, and `lib/`
+  - Coverage thresholds: Set to 0% (incremental development approach - tests added as needed)
 
 - **Backend tests** (Jest): Located in `functions/src/__tests__/` directory
   - Configuration: `functions/jest.config.js` (Node.js environment)
@@ -972,6 +974,13 @@ The project uses separate test configurations for frontend and backend:
   - Includes property-based tests with fast-check
 
 This separation ensures proper test environments and prevents conflicts between frontend (jsdom) and backend (node) test requirements.
+
+**Test Philosophy:**
+The project follows an incremental testing approach where:
+- Core business logic and data access layers have comprehensive test coverage
+- Property-based tests validate universal correctness properties
+- Component tests are added as needed based on complexity and risk
+- Coverage thresholds are intentionally set to 0 to allow flexible, incremental test development
 
 ### API Testing
 
