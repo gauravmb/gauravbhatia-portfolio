@@ -1098,6 +1098,12 @@ import ProjectCard from '@/components/ProjectCard';
 - `npm run seed-data` - Seed initial portfolio data to production Firestore (requires Firebase Admin credentials)
 - `node scripts/seed-emulator.js` - Seed initial portfolio data to Firebase Emulator (for local development)
 
+### Admin User Management
+
+- `node scripts/create-admin-user.js` - Create admin user for production Firebase (requires serviceAccountKey.json)
+- `USE_EMULATOR=true node scripts/create-admin-user.js` - Create admin user for Firebase Emulator (local development)
+- `ADMIN_EMAIL=your@email.com ADMIN_PASSWORD=yourpassword node scripts/create-admin-user.js` - Create admin user with custom credentials
+
 ### Verification Scripts
 
 - `node scripts/verify-setup.js` - Verify project setup and configuration
@@ -1269,6 +1275,41 @@ npm test
 ```
 
 The property-based tests run 100 iterations by default (50 for edge cases) to ensure comprehensive coverage of the input space.
+
+### Admin User Creation
+
+The project includes a script to create admin users for accessing the admin interface:
+
+**Create Admin User**
+```bash
+# For Firebase Emulator (local development)
+USE_EMULATOR=true node scripts/create-admin-user.js
+
+# For production Firebase (requires serviceAccountKey.json)
+node scripts/create-admin-user.js
+
+# Custom credentials
+ADMIN_EMAIL=your@email.com ADMIN_PASSWORD=yourpassword node scripts/create-admin-user.js
+```
+
+**Default Credentials:**
+- Email: `admin@test.com`
+- Password: `admin123456`
+
+**Features:**
+- Works with both Firebase Emulator and production Firebase
+- Automatically detects if user already exists and updates password
+- Creates user with email verification enabled
+- Provides clear success/error messages
+- Supports custom credentials via environment variables
+
+**Usage Flow:**
+1. Start Firebase Emulator: `npm run emulators`
+2. Create admin user: `USE_EMULATOR=true node scripts/create-admin-user.js`
+3. Navigate to admin login: http://localhost:3000/admin/login
+4. Sign in with the created credentials
+
+For production Firebase, download your service account key from Firebase Console (Project Settings → Service Accounts) and save it as `serviceAccountKey.json` in the project root.
 
 ### Verification and Validation
 
