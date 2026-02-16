@@ -248,18 +248,41 @@ npm test
 
 ## Building for Production
 
+The project is configured for static export to Firebase Hosting:
+
 ```bash
-# Build the Next.js app
+# Build and export static files
 npm run build
 
-# Test the production build locally
-npm run start
+# The output will be in the 'out' directory
+# This is ready for Firebase Hosting deployment
+```
+
+**Static Export Configuration:**
+- `output: 'export'` in next.config.js generates a fully static site
+- `images.unoptimized: true` disables Next.js image optimization for static hosting
+- No Node.js server required - deploys as static HTML/CSS/JS files
+- Compatible with Firebase Hosting's static file serving
+
+**Note:** The `npm run start` command is not available with static export. To test the production build locally, use a static file server:
+
+```bash
+# Install a static file server (if not already installed)
+npm install -g serve
+
+# Serve the static export
+serve out
 ```
 
 ## Deployment
 
+The project uses static export for Firebase Hosting deployment:
+
 ```bash
-# Build and deploy everything to Firebase
+# Build and export static files
+npm run build
+
+# Deploy everything to Firebase
 npm run deploy
 
 # Or deploy specific services
@@ -268,6 +291,18 @@ firebase deploy --only functions
 firebase deploy --only firestore:rules
 firebase deploy --only storage
 ```
+
+**Deployment Process:**
+1. `npm run build` generates static files in the `out` directory
+2. Firebase Hosting serves these static files directly
+3. No server-side rendering at runtime - all pages are pre-rendered
+4. API endpoints run as Firebase Functions (serverless)
+
+**Important:** The static export configuration means:
+- All pages are pre-rendered at build time
+- Dynamic routes use `generateStaticParams` for static generation
+- No server-side rendering (SSR) at request time
+- Incremental Static Regeneration (ISR) is not available with static export
 
 ## Troubleshooting
 

@@ -232,7 +232,7 @@ export default function APIDocsPage() {
                     <div>
                       <dt className="font-mono text-sm text-blue-600 dark:text-blue-400">name</dt>
                       <dd className="text-sm text-gray-600 dark:text-gray-400 ml-4">
-                        <span className="font-semibold">string</span> (required) - Sender's name
+                        <span className="font-semibold">string</span> (required) - Sender&apos;s name
                       </dd>
                     </div>
                     <div>

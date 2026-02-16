@@ -4,6 +4,47 @@ A modern, dynamic portfolio website built with Next.js 14, TypeScript, Tailwind 
 
 ## Recent Updates
 
+**Admin Edit Project Page - Query Parameter Routing** - Simplified routing architecture:
+- Changed from dynamic route segments (`/edit/[id]`) to query parameters (`/edit?id=xxx`)
+- Removed server/client component split - now single client component
+- Uses `useSearchParams()` hook to extract project ID from query string
+- Eliminates need for `generateStaticParams()` function
+- Simpler architecture: single file instead of separate server/client components
+- Full static export compatibility without dynamic route complexity
+- Error handling: displays message when no project ID is provided
+- Maintains all functionality: authentication, form integration, dark mode
+- Cleaner code structure for admin-only functionality
+- Updated documentation explaining query parameter approach
+
+**Admin Edit Project Page - generateStaticParams Async Fix** - Updated for Next.js 14+ type consistency:
+- Changed `generateStaticParams()` to `async function generateStaticParams()` for proper async/await pattern
+- Ensures consistency with Next.js 14+ requirements where params are async
+- Maintains static export compatibility (returns empty array for client-side rendering)
+- Fixes TypeScript type checking and follows Next.js 14 best practices
+- No functional change - still returns empty array for admin dynamic routes
+- Aligns with the async params pattern used in the page component itself
+
+**Admin Edit Project Page - Server/Client Component Split** - Refactored for Next.js 14+ async params:
+- Split into server component wrapper (`page.tsx`) and client component (`EditProjectClient.tsx`)
+- Server component handles async params with `await params` pattern (Next.js 14+ requirement)
+- Client component contains all UI logic, authentication, and interactivity
+- Maintains static export compatibility with `generateStaticParams()` returning empty array
+- Follows Next.js 14 best practices for dynamic routes with async params
+- Clear separation of concerns: server handles params, client handles UI/state
+- Updated documentation explaining the server/client split architecture
+- Prevents React hydration issues with async params in static export mode
+
+**Admin Edit Project Page - Static Export Compatibility** - Enhanced dynamic route for static builds:
+- Added `generateStaticParams()` function returning empty array for client-side only rendering
+- Enables Next.js static export compatibility for admin dynamic routes
+- Admin pages are client-side rendered (not pre-generated at build time)
+- Maintains authentication protection and dynamic project loading
+- Follows Next.js 14 best practices for protected admin routes with static export
+- Updated inline documentation explaining the purpose: "The empty generateStaticParams means this page will be rendered client-side only"
+- Prevents build errors when using `output: 'export'` in next.config.js
+- Admin routes remain fully functional with client-side data fetching
+- Ensures consistency with other admin pages (new project page uses same pattern)
+
 **Navigation Component Hydration Fix** - Resolved React hydration mismatch with dark mode:
 - Added `mounted` state to track client-side hydration completion
 - Prevents hydration mismatch between server-rendered and client-rendered content
@@ -1369,6 +1410,115 @@ router.push('/admin/login');
 
 // After successful login, user is redirected to:
 // /admin/dashboard
+```
+
+### Admin Edit Project Page
+
+The Admin Edit Project Page (`app/admin/projects/edit/page.tsx`) provides an interface for editing existing portfolio projects in the admin dashboard.
+
+**Architecture:**
+- **Client Component**: Single client component using query parameters
+- **Query Parameter Routing**: Uses `?id=xxx` query parameter to identify project
+- **Static Export Compatible**: No dynamic route segments, fully compatible with static export
+- **Protected Route**: Wrapped in AdminLayout for authentication enforcement
+
+**Key Features:**
+- **Project Form Integration**: Uses ProjectForm component in edit mode
+- **Query Parameter Loading**: Fetches project data based on URL query parameter
+- **Authentication Protection**: AdminLayout handles auth checks and redirects
+- **Dark Mode Support**: Consistent styling across light and dark themes
+- **Responsive Design**: Mobile-first layout with proper spacing
+- **Error Handling**: Displays message when no project ID is provided
+
+**Component Implementation:**
+```typescript
+'use client';
+
+import { useSearchParams } from 'next/navigation';
+import AdminLayout from '../../../../components/AdminLayout';
+import ProjectForm from '../../../../components/ProjectForm';
+
+export default function EditProjectPage() {
+  const searchParams = useSearchParams();
+  const projectId = searchParams.get('id') || '';
+
+  return (
+    <AdminLayout>
+      <div className="max-w-7xl mx-auto">
+        {/* Page Header */}
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+            Edit Project
+          </h1>
+          <p className="mt-2 text-gray-600 dark:text-gray-400">
+            Update project details and save your changes.
+          </p>
+        </div>
+
+        {/* Project Form */}
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6 border border-gray-200 dark:border-gray-700">
+          {projectId ? (
+            <ProjectForm projectId={projectId} />
+          ) : (
+            <div className="text-center py-8 text-gray-500 dark:text-gray-400">
+              No project ID provided. Please select a project to edit.
+            </div>
+          )}
+        </div>
+      </div>
+    </AdminLayout>
+  );
+}
+```
+
+**Why Query Parameters Instead of Dynamic Routes?**
+- **Static Export Simplicity**: No need for `generateStaticParams()` or dynamic route segments
+- **Client-Side Only**: Admin pages don't need SSR or pre-rendering
+- **Cleaner Architecture**: Single component file, no server/client split required
+- **Full Compatibility**: Works seamlessly with Next.js static export mode
+- **Easier Maintenance**: Simpler code structure for admin-only functionality
+
+**Navigation Flow:**
+1. User clicks "Edit" button on project in ProjectsList
+2. Router navigates to `/admin/projects/edit?id={projectId}`
+3. Component extracts project ID from query parameters using `useSearchParams()`
+4. AdminLayout checks authentication (redirects if not authenticated)
+5. ProjectForm loads and displays project data for editing
+6. User saves changes and is redirected back to projects list
+
+**Error Handling:**
+- If no project ID is provided in query parameters, displays helpful message
+- ProjectForm handles loading states and errors for invalid project IDs
+- AdminLayout handles authentication errors and redirects
+
+**Visual Features:**
+- Consistent admin panel styling
+- Clear page title and description
+- Form container with proper elevation and borders
+- Dark mode support throughout
+- Responsive layout adapts to screen size
+- Centered error message when project ID is missing
+
+**Accessibility:**
+- Semantic HTML with proper heading hierarchy
+- Keyboard-accessible form controls
+- Screen reader friendly structure
+- Focus management for form inputs
+- Clear error messages for missing data
+
+**Requirements Validated:**
+- 11.1: Admin interface for editing projects
+- 11.2: Form with fields for project data
+- 11.3: Image upload and management
+- 11.5: Draft and publish functionality
+
+**Usage:**
+```typescript
+// Navigate to edit project page with query parameter
+router.push(`/admin/projects/edit?id=${projectId}`);
+
+// After saving changes, user is redirected to:
+// /admin/projects
 ```
 
 ### Contact Page

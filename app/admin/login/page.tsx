@@ -94,7 +94,7 @@ export default function AdminLoginPage() {
       // Redirect to admin dashboard on success
       // The useEffect hook will handle the redirect when user state updates
       router.push('/admin/dashboard');
-    } catch (error) {
+    } catch {
       // Error is already handled by useAuth hook
       // Just stop the loading state
       setIsSubmitting(false);

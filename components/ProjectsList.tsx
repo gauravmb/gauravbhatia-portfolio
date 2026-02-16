@@ -155,7 +155,7 @@ export default function ProjectsList() {
    * Navigates to edit page for a project
    */
   const handleEdit = (projectId: string) => {
-    router.push(`/admin/projects/edit/${projectId}`);
+    router.push(`/admin/projects/edit?id=${projectId}`);
   };
 
   /**

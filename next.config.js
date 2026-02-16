@@ -14,6 +14,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  output: 'export', // Required for Firebase Hosting static export
+  images: {
+    unoptimized: true, // Required for static export
+  },
+  // Skip trailing slash to avoid issues with Firebase Hosting
+  trailingSlash: true,
   async headers() {
     return [
       {
