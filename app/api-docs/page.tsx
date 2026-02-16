@@ -50,7 +50,7 @@ export default function APIDocsPage() {
           {/* GET /projects */}
           <EndpointSection
             method="GET"
-            path="/projects"
+            path="/getProjects"
             title="List All Published Projects"
             description="Retrieve a list of all published portfolio projects with their metadata."
           >
@@ -60,7 +60,7 @@ export default function APIDocsPage() {
                   Request
                 </h4>
                 <CodeBlock language="bash">
-{`curl -X GET https://your-domain.com/api/v1/projects \\
+{`curl -X GET https://us-central1-mindcruit.cloudfunctions.net/getProjects \\
   -H "Content-Type: application/json"`}
                 </CodeBlock>
               </div>
@@ -99,7 +99,7 @@ export default function APIDocsPage() {
           {/* GET /projects/:id */}
           <EndpointSection
             method="GET"
-            path="/projects/:id"
+            path="/getProjectById?id=:id"
             title="Get Single Project by ID"
             description="Retrieve detailed information about a specific project using its unique identifier."
           >
@@ -125,7 +125,7 @@ export default function APIDocsPage() {
                   Request
                 </h4>
                 <CodeBlock language="bash">
-{`curl -X GET https://your-domain.com/api/v1/projects/project-123 \\
+{`curl -X GET https://us-central1-mindcruit.cloudfunctions.net/getProjectById?id=project-123 \\
   -H "Content-Type: application/json"`}
                 </CodeBlock>
               </div>
@@ -175,7 +175,7 @@ export default function APIDocsPage() {
           {/* GET /profile */}
           <EndpointSection
             method="GET"
-            path="/profile"
+            path="/getProfile"
             title="Get Portfolio Owner Profile"
             description="Retrieve the portfolio owner's profile information including bio, skills, and social links."
           >
@@ -185,7 +185,7 @@ export default function APIDocsPage() {
                   Request
                 </h4>
                 <CodeBlock language="bash">
-{`curl -X GET https://your-domain.com/api/v1/profile \\
+{`curl -X GET https://us-central1-mindcruit.cloudfunctions.net/getProfile \\
   -H "Content-Type: application/json"`}
                 </CodeBlock>
               </div>
@@ -218,7 +218,7 @@ export default function APIDocsPage() {
           {/* POST /contact */}
           <EndpointSection
             method="POST"
-            path="/contact"
+            path="/submitInquiry"
             title="Submit Contact Inquiry"
             description="Submit a contact form inquiry. Rate limited to 3 submissions per hour per IP address."
           >
@@ -262,7 +262,7 @@ export default function APIDocsPage() {
                   Request
                 </h4>
                 <CodeBlock language="bash">
-{`curl -X POST https://your-domain.com/api/v1/contact \\
+{`curl -X POST https://us-central1-mindcruit.cloudfunctions.net/submitInquiry \\
   -H "Content-Type: application/json" \\
   -d '{
     "name": "Jane Smith",
@@ -407,7 +407,7 @@ export default function APIDocsPage() {
                 Admin endpoints require a Bearer token in the Authorization header:
               </p>
               <CodeBlock language="bash">
-{`curl -X POST https://your-domain.com/api/v1/admin/projects \\
+{`curl -X POST https://us-central1-mindcruit.cloudfunctions.net/createProject \\
   -H "Content-Type: application/json" \\
   -H "Authorization: Bearer YOUR_FIREBASE_AUTH_TOKEN" \\
   -d '{ "title": "New Project", ... }'`}
@@ -428,7 +428,7 @@ export default function APIDocsPage() {
             <div>
               <dt className="font-semibold text-gray-900 dark:text-white">API Version</dt>
               <dd className="text-gray-600 dark:text-gray-400 mt-1">
-                Current version: v1. All endpoints include the version prefix <code className="px-2 py-1 bg-white dark:bg-gray-700 rounded text-sm">/api/v1</code>
+                Current version: v1. All endpoints are Firebase Cloud Functions deployed at <code className="px-2 py-1 bg-white dark:bg-gray-700 rounded text-sm">https://us-central1-mindcruit.cloudfunctions.net</code>
               </dd>
             </div>
             <div>

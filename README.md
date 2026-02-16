@@ -4,6 +4,14 @@ A modern, dynamic portfolio website built with Next.js 14, TypeScript, Tailwind 
 
 ## Recent Updates
 
+**API Documentation URLs Updated** - Corrected base URLs for production and local development:
+- Production URL updated to: `https://us-central1-mindcruit.cloudfunctions.net`
+- Local development URL updated to: `http://localhost:5001/mindcruit/us-central1`
+- Matches actual Firebase Functions deployment structure
+- Ensures API documentation examples work correctly
+- Base URL selector now provides accurate endpoints for testing
+- Aligns with Firebase Functions naming convention (region-projectId.cloudfunctions.net)
+
 **Admin Edit Project Page - Query Parameter Routing** - Simplified routing architecture:
 - Changed from dynamic route segments (`/edit/[id]`) to query parameters (`/edit?id=xxx`)
 - Removed server/client component split - now single client component

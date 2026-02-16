@@ -143,8 +143,8 @@ export function BaseURLSelector() {
   const [selectedUrl, setSelectedUrl] = useState<'production' | 'localhost'>('production');
 
   const urls = {
-    production: 'https://your-domain.com/api/v1',
-    localhost: 'http://localhost:5001/api/v1',
+    production: 'https://us-central1-mindcruit.cloudfunctions.net',
+    localhost: 'http://localhost:5001/mindcruit/us-central1',
   };
 
   return (
