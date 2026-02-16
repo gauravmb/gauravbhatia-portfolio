@@ -1,0 +1,59 @@
+{
+  "workspaceId": "c5c60b33-b885-4a4e-9a5a-bbe1f202a008",
+  "workspaceName": "MindcruitAPI",
+  "collections": [
+    {
+      "id": "50eb75ed-8b35-4927-a91d-f96dd65410c3",
+      "name": "Portfolio API v2",
+      "uid": "392710-50eb75ed-8b35-4927-a91d-f96dd65410c3",
+      "description": "Main collection with correct Firebase Functions URLs"
+    },
+    {
+      "id": "bc8ddac8-9faa-4c41-a5d3-3bc065341e50",
+      "name": "Portfolio API",
+      "uid": "392710-bc8ddac8-9faa-4c41-a5d3-3bc065341e50",
+      "description": "Old collection (deprecated)"
+    },
+    {
+      "id": "b96dea55-ee9b-49b8-acc2-005f365203cb",
+      "name": "API Documentation #reference",
+      "uid": "392710-b96dea55-ee9b-49b8-acc2-005f365203cb"
+    },
+    {
+      "id": "fa7a58dd-e506-4aca-ba6f-aae193495a08",
+      "name": "API Prototyping",
+      "uid": "392710-fa7a58dd-e506-4aca-ba6f-aae193495a08"
+    },
+    {
+      "id": "1a08c5d6-3cce-4a47-a6e6-a83d97923a1d",
+      "name": "RESTful API Basics #blueprint",
+      "uid": "392710-1a08c5d6-3cce-4a47-a6e6-a83d97923a1d"
+    }
+  ],
+  "environments": [
+    {
+      "id": "79983a7e-77ce-4527-9ac7-e12e57481305",
+      "name": "Portfolio Local",
+      "uid": "392710-79983a7e-77ce-4527-9ac7-e12e57481305",
+      "description": "Local development environment",
+      "baseUrl": "http://localhost:5001/mindcruit/us-central1"
+    },
+    {
+      "id": "9bb8b2a5-b4a2-4b21-8841-aa22714088da",
+      "name": "Portfolio Production",
+      "uid": "392710-9bb8b2a5-b4a2-4b21-8841-aa22714088da",
+      "description": "Production environment",
+      "baseUrl": "https://us-central1-mindcruit.cloudfunctions.net"
+    },
+    {
+      "id": "946a5326-d501-47cd-9fea-03343f127f11",
+      "name": "Beta",
+      "uid": "392710-946a5326-d501-47cd-9fea-03343f127f11"
+    },
+    {
+      "id": "de6e2319-601b-436d-9ce9-8551515607a0",
+      "name": "Production",
+      "uid": "392710-de6e2319-601b-436d-9ce9-8551515607a0"
+    }
+  ]
+}
