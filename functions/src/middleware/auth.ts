@@ -14,8 +14,8 @@
  * - firebase-functions for HTTP types
  */
 
-import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
+import { Request, Response } from 'express';
 
 // Initialize Firebase Admin if not already initialized
 if (!admin.apps.length) {
@@ -30,7 +30,7 @@ if (!admin.apps.length) {
  * 
  * Requirements: 11.4
  */
-export async function verifyAuthToken(req: functions.Request): Promise<admin.auth.DecodedIdToken | null> {
+export async function verifyAuthToken(req: Request): Promise<admin.auth.DecodedIdToken | null> {
   try {
     // Extract Authorization header
     const authHeader = req.headers.authorization;
@@ -79,8 +79,8 @@ export async function verifyAuthToken(req: functions.Request): Promise<admin.aut
  * Requirements: 11.4
  */
 export async function requireAuth(
-  req: functions.Request,
-  res: functions.Response
+  req: Request,
+  res: Response
 ): Promise<admin.auth.DecodedIdToken | null> {
   const decodedToken = await verifyAuthToken(req);
 

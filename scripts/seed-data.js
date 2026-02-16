@@ -5,45 +5,36 @@
  * including profile information, projects, and experience.
  * 
  * Usage:
- *   npm run seed-data
+ *   node scripts/seed-data.js
  * 
- * Note: Requires Firebase Admin SDK to be configured with appropriate credentials
+ * Note: Requires serviceAccountKey.json in project root
  */
 
-import * as admin from 'firebase-admin';
-import * as fs from 'fs';
-import * as path from 'path';
+const admin = require('../functions/node_modules/firebase-admin');
+const fs = require('fs');
+const path = require('path');
 
-// Initialize Firebase Admin SDK
-// Make sure GOOGLE_APPLICATION_CREDENTIALS environment variable is set
-// or provide the service account key path
+// Initialize Firebase Admin SDK with service account
 if (!admin.apps.length) {
   try {
-    // Try to use service account key file
     const serviceAccount = require('../serviceAccountKey.json');
     admin.initializeApp({
       credential: admin.credential.cert(serviceAccount),
     });
+    console.log('✓ Firebase Admin initialized with service account');
   } catch (error) {
-    // Fallback to application default credentials
-    admin.initializeApp({
-      credential: admin.credential.applicationDefault(),
-    });
+    console.error('❌ Error loading service account key:', error.message);
+    console.error('Make sure serviceAccountKey.json exists in project root');
+    process.exit(1);
   }
 }
 
 const db = admin.firestore();
 
-interface SeedData {
-  profile: any;
-  projects: any[];
-  experience: any[];
-}
-
 /**
  * Load initial data from JSON file
  */
-function loadInitialData(): SeedData {
+function loadInitialData() {
   const dataPath = path.join(__dirname, '..', 'data', 'initial-data.json');
   const rawData = fs.readFileSync(dataPath, 'utf-8');
   return JSON.parse(rawData);
@@ -52,7 +43,7 @@ function loadInitialData(): SeedData {
 /**
  * Seed profile data into Firestore
  */
-async function seedProfile(profileData: any): Promise<void> {
+async function seedProfile(profileData) {
   console.log('Seeding profile data...');
   
   const profileWithTimestamp = {
@@ -67,7 +58,7 @@ async function seedProfile(profileData: any): Promise<void> {
 /**
  * Seed projects data into Firestore
  */
-async function seedProjects(projects: any[]): Promise<void> {
+async function seedProjects(projects) {
   console.log('Seeding projects data...');
   
   const batch = db.batch();
@@ -89,7 +80,7 @@ async function seedProjects(projects: any[]): Promise<void> {
 /**
  * Seed experience data into profile document
  */
-async function seedExperience(experience: any[]): Promise<void> {
+async function seedExperience(experience) {
   console.log('Adding experience to profile...');
   
   await db.collection('profile').doc('main').update({
@@ -102,7 +93,7 @@ async function seedExperience(experience: any[]): Promise<void> {
 /**
  * Main seeding function
  */
-async function seedDatabase(): Promise<void> {
+async function seedDatabase() {
   try {
     console.log('Starting database seeding...\n');
     
@@ -122,7 +113,7 @@ async function seedDatabase(): Promise<void> {
     console.log('\n✓ Database seeding completed successfully!');
     process.exit(0);
   } catch (error) {
-    console.error('Error seeding database:', error);
+    console.error('❌ Error seeding database:', error);
     process.exit(1);
   }
 }

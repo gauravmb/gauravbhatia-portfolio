@@ -17,6 +17,7 @@
 
 import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
+import { Response } from 'express';
 
 // Initialize Firebase Admin if not already initialized
 if (!admin.apps.length) {
@@ -94,7 +95,7 @@ async function checkRateLimit(ip: string): Promise<number> {
  * Sets CORS headers for API responses
  * Allows cross-origin requests from any origin for public API endpoints
  */
-function setCorsHeaders(res: functions.Response): void {
+function setCorsHeaders(res: Response): void {
   res.set('Access-Control-Allow-Origin', '*');
   res.set('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.set('Access-Control-Allow-Headers', 'Content-Type');

@@ -40,14 +40,20 @@ projects/
 
 ### 2. Configure Firebase Admin SDK
 
-Create a service account key:
+The seed script supports two authentication methods with automatic fallback:
+
+**Option A: Service Account Key File (Recommended)**
 1. Go to Firebase Console → Project Settings → Service Accounts
 2. Click "Generate New Private Key"
-3. Save the JSON file securely
-4. Set environment variable:
+3. Save the JSON file as `serviceAccountKey.json` in project root
+4. The script will automatically detect and use this file
+
+**Option B: Application Default Credentials**
+1. Set environment variable:
    ```bash
    export GOOGLE_APPLICATION_CREDENTIALS="/path/to/serviceAccountKey.json"
    ```
+2. The script will use this if `serviceAccountKey.json` is not found in project root
 
 ### 3. Install Dependencies
 

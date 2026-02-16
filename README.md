@@ -4,6 +4,16 @@ A modern, dynamic portfolio website built with Next.js 14, TypeScript, Tailwind 
 
 ## Recent Updates
 
+**Seed Data Script - Improved Authentication** - Enhanced Firebase Admin SDK initialization:
+- Added automatic service account key file detection (`serviceAccountKey.json` in project root)
+- Implemented fallback to application default credentials if key file not found
+- Simplified authentication setup - just place the key file in project root
+- No need to set `GOOGLE_APPLICATION_CREDENTIALS` environment variable manually
+- Graceful error handling with clear fallback behavior
+- Try-catch block prevents initialization failures
+- Maintains compatibility with CI/CD environments using application default credentials
+- Updated documentation in `scripts/README.md` and `data/SETUP-GUIDE.md`
+
 **API Documentation Page Metadata Cleanup** - Simplified metadata configuration:
 - Removed redundant `alternates.canonical` field (handled by root layout)
 - Removed Twitter Card metadata (not needed for documentation page)
@@ -89,6 +99,13 @@ A modern, dynamic portfolio website built with Next.js 14, TypeScript, Tailwind 
 - Implements Requirements 11.1 (admin interface with authentication)
 - Provides consistent layout structure for all admin pages
 - Automatic redirect to login page for unauthenticated users
+
+**Admin Login Page Tests - Jest DOM Setup Fix** - Fixed test configuration for proper matcher support:
+- Added `@testing-library/jest-dom` import to enable Jest DOM matchers
+- Fixes TypeScript errors for matchers like `toBeInTheDocument()`, `toHaveValue()`, etc.
+- Ensures proper test setup following React Testing Library best practices
+- All 8 test cases now run with full matcher support
+- Validates Requirements 12.2 (API error message display)
 
 **Admin Login Page Tests** - Added comprehensive unit tests for authentication error handling:
 - New test file: `app/admin/login/__tests__/login.test.tsx` with 8 test cases
@@ -1922,6 +1939,7 @@ import ProjectCard from '@/components/ProjectCard';
 ### Testing and Development
 
 - `node functions/test-server.js` - Start lightweight API test server (no Firebase Emulator required)
+- `npm run clear-cache` - Clear all build caches and temporary files (Next.js, node_modules, coverage, Firebase emulator)
 
 ### Data Seeding Scripts
 

@@ -7,6 +7,7 @@
  * Requirements: 12.2
  */
 
+import '@testing-library/jest-dom';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/lib/hooks/useAuth';
@@ -92,7 +93,7 @@ describe('AdminLoginPage - Error Handling', () => {
       clearError: mockClearError,
     });
 
-    const { rerender } = render(<AdminLoginPage />);
+    render(<AdminLoginPage />);
 
     // Verify error is shown
     expect(screen.getByText('Invalid email or password.')).toBeInTheDocument();

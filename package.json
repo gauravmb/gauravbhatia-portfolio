@@ -12,7 +12,9 @@
     "test:coverage": "jest --coverage",
     "emulators": "firebase emulators:start",
     "deploy": "npm run build && firebase deploy",
-    "create-admin": "node scripts/create-admin-user.js"
+    "create-admin": "node scripts/create-admin-user.js",
+    "clear-cache": "node scripts/clear-cache.js",
+    "setup-production": "bash scripts/setup-production.sh"
   },
   "dependencies": {
     "next": "^14.2.0",

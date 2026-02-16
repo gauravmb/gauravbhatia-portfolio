@@ -19,6 +19,7 @@
 
 import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
+import { Response } from 'express';
 import { requireAuth } from '../middleware/auth';
 
 // Initialize Firebase Admin if not already initialized
@@ -33,7 +34,7 @@ const storage = admin.storage();
  * Sets CORS headers for API responses
  * Allows cross-origin requests with authentication headers
  */
-function setCorsHeaders(res: functions.Response): void {
+function setCorsHeaders(res: Response): void {
   res.set('Access-Control-Allow-Origin', '*');
   res.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
   res.set('Access-Control-Allow-Headers', 'Content-Type, Authorization');
