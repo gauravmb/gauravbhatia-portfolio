@@ -247,6 +247,39 @@ A modern, dynamic portfolio website built with Next.js 14, TypeScript, Tailwind 
 - Firebase CLI (`npm install -g firebase-tools`)
 - A Firebase project
 
+## 🚀 Quick Start - Deployment
+
+**New to deployment?** We've got you covered!
+
+1. **Read the Complete Guide**: See `DEPLOYMENT-GUIDE.md` for detailed, beginner-friendly instructions
+2. **Use the Checklist**: Follow `DEPLOYMENT-CHECKLIST.md` step-by-step
+3. **Deploy for Free**: Everything runs on Firebase's free tier - no credit card needed!
+
+**Quick deployment commands:**
+```bash
+# 1. Setup Firebase
+firebase login
+firebase use your-project-id
+
+# 2. Deploy security rules
+firebase deploy --only firestore:rules,firestore:indexes,storage
+
+# 3. Seed data
+npx ts-node scripts/seed-data.ts
+
+# 4. Create admin user
+node scripts/create-admin-user.js
+
+# 5. Build and deploy
+npm run build
+npm run export
+firebase deploy
+```
+
+Your website will be live at: `https://your-project-id.web.app`
+
+**See `DEPLOYMENT-GUIDE.md` for complete instructions!**
+
 ## Setup Instructions
 
 ### 1. Install Dependencies
