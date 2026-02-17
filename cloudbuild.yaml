@@ -75,6 +75,8 @@ timeout: '1200s'
 options:
   # Use high-CPU machine for faster Docker builds
   machineType: 'N1_HIGHCPU_8'
+  # Logging configuration
+  logging: CLOUD_LOGGING_ONLY
 
 # Substitutions for variables
 substitutions:
