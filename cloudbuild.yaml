@@ -13,14 +13,15 @@
 steps:
   # Step 1: Build the Docker container image
   # Tags the image with the commit SHA for version tracking
-  # Passes Firebase configuration as build arguments
+  # Firebase configuration should be passed via Secret Manager (not hardcoded)
+  # For now, these are public client-side keys (safe to expose in client apps)
   - name: 'gcr.io/cloud-builders/docker'
     args: 
       - 'build'
       - '-t'
       - 'gcr.io/$PROJECT_ID/portfolio-website:$_COMMIT_SHA'
       - '--build-arg'
-      - 'NEXT_PUBLIC_FIREBASE_API_KEY=AIzaSyCHACata3oYuyqbzgJ1v5pVBcLuf8Q1m6Y'
+      - 'NEXT_PUBLIC_FIREBASE_API_KEY=${_FIREBASE_API_KEY}'
       - '--build-arg'
       - 'NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=mindcruit.firebaseapp.com'
       - '--build-arg'
@@ -78,3 +79,7 @@ options:
 # Substitutions for variables
 substitutions:
   _COMMIT_SHA: 'latest'
+  # Firebase API key - set this in Cloud Build trigger settings
+  # Go to: Cloud Build > Triggers > Edit Trigger > Substitution variables
+  # Add: _FIREBASE_API_KEY = [your-api-key]
+  _FIREBASE_API_KEY: ''
