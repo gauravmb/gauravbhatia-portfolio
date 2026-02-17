@@ -1,11 +1,14 @@
 /**
  * Next.js Configuration
  * 
- * Configures Next.js build settings and caching headers.
+ * Configures Next.js for server-side rendering (SSR) with Cloud Run deployment.
  * 
  * Key configurations:
  * - React Strict Mode for development warnings
+ * - Standalone output mode for optimized Docker builds
+ * - Next.js Image Optimization enabled (Cloud Run handles optimization)
  * - Cache headers for static assets
+ * - Trailing slash enabled for Firebase Hosting compatibility
  * 
  * Note: Profile images are served from the public folder
  * and don't require external domain configuration.
@@ -14,12 +17,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  output: 'export', // Required for Firebase Hosting static export
+  output: 'standalone', // Optimized for Docker deployment
   images: {
-    unoptimized: true, // Required for static export
+    // Next.js Image Optimization enabled for Cloud Run
+    domains: [], // Add external image domains if needed
   },
-  // Skip trailing slash to avoid issues with Firebase Hosting
-  trailingSlash: true,
+  trailingSlash: true, // Maintain Firebase Hosting compatibility
   async headers() {
     return [
       {

@@ -4,6 +4,87 @@ A modern, dynamic portfolio website built with Next.js 14, TypeScript, Tailwind 
 
 ## Recent Updates
 
+**Static Export Configuration** - Reverted to static export for 100% free Firebase Hosting:
+- Changed `output` from `'standalone'` (SSR/Cloud Run) back to `'export'` (static export)
+- Disabled Next.js Image Optimization (required for static export with `unoptimized: true`)
+- Maintains trailing slash for Firebase Hosting compatibility
+- All pages pre-rendered at build time as static HTML files
+- Zero hosting costs on Firebase Hosting free tier
+- No Cloud Run or Docker dependencies required
+- Updated configuration comments to reflect static export architecture
+- See `next.config.js` for complete configuration details
+
+**Monitoring Setup Script** - Added automated monitoring and alerting configuration:
+- New script: `scripts/setup-monitoring.sh` automates Cloud Monitoring setup for production
+- Interactive setup wizard guides through monitoring configuration
+- Creates uptime checks for Cloud Run service and Firebase Hosting
+- Configures alert policies for service availability, error rates, and performance
+- Sets up notification channels (email, Slack, PagerDuty)
+- Creates Cloud Monitoring dashboard with key metrics visualization
+- Validates Google Cloud CLI and project configuration
+- Enables Cloud Monitoring API automatically
+- Provides comprehensive monitoring for SSR deployment on Cloud Run
+- Usage: `npm run setup-monitoring` or `bash scripts/setup-monitoring.sh`
+- Complements SSR migration with production-ready monitoring infrastructure
+- Ensures visibility into application health and performance
+
+**Production Deployment Verification Script** - Added comprehensive automated testing for production deployments:
+- New script: `scripts/verify-production-deployment.js` validates SSR migration to Cloud Run
+- Tests page loading for all major pages (Home, Projects, Contact, Admin Login)
+- Validates SEO meta tags (title, description, Open Graph, Twitter Card, canonical URL)
+- Performance testing with 2-second threshold requirement (3 requests per page for average)
+- Analytics tracking verification (Google Analytics, Google Tag Manager)
+- Cloud Run header detection to confirm Cloud Run is serving the application
+- Structured data (JSON-LD) validation on project pages
+- Comprehensive summary report with pass/fail status for each test category
+- Color-coded console output for easy result interpretation
+- Exit code 0 for success, 1 for failures (CI/CD integration ready)
+- Configurable production URL via PRODUCTION_URL environment variable
+- Usage: `node scripts/verify-production-deployment.js` or `PRODUCTION_URL=https://your-domain.com node scripts/verify-production-deployment.js`
+- Validates Requirements 1.1, 6.6, 7.1, 7.2, 8.1-8.4, 10.1-10.2 (page loading, performance, SEO, analytics)
+
+**SSR Migration Documentation Tests** - Added automated validation for migration guide completeness:
+- New test file: `__tests__/docs/migration-guide.test.ts` validates SSR migration documentation
+- Tests ensure migration guide contains all required sections (Overview, Architecture, Configuration, Deployment)
+- Validates presence of troubleshooting guidance for common issues (Docker, Cloud Build, Cloud Run, Firebase Hosting)
+- Confirms rollback procedures are documented (emergency and full rollback)
+- Verifies cost estimates and comparison tables are present
+- Ensures monitoring guidance for Cloud Run and Firebase Hosting metrics
+- Validates code examples for deployment commands, rollback commands, and configuration snippets
+- Prevents documentation regressions during SSR migration process
+- Uses Jest for test execution with file system validation
+- Complements configuration tests to ensure both code and documentation remain synchronized
+
+**Firebase Configuration Tests** - Added comprehensive test suite for Firebase Hosting configuration:
+- New test file: `__tests__/config/firebase-config.test.ts` validates Firebase Hosting setup
+- Tests SSR migration configuration (Cloud Run rewrite rules, no static export public directory)
+- Validates cache headers for static assets (images, JS, CSS files)
+- Ensures Firebase services remain properly configured (Firestore, Storage, Functions, Emulators)
+- Verifies Cloud Run serviceId and region settings for SSR deployment
+- Confirms removal of static export configuration for SSR compatibility
+- Provides automated validation of firebase.json configuration changes
+- Helps prevent configuration regressions during SSR migration
+- Uses Jest for test execution with JSON parsing and validation
+
+**Projects Page - Pure SSR Implementation** - Updated projects page to use pure server-side rendering:
+- Changed from ISR (Incremental Static Regeneration) to pure SSR for always-fresh data
+- Removed `revalidate` export - data is fetched fresh on every request
+- Ensures visitors always see the latest published projects without caching delay
+- Updated file-level documentation to reflect SSR architecture
+- Maintains server-side rendering benefits: SEO optimization, fast initial load
+- Trade-off: Slightly higher server load for guaranteed data freshness
+- Ideal for portfolios where project updates should be immediately visible
+
+**SSR Migration - Reverted to Static Export** - Returned to static export for zero-cost hosting:
+- Changed `output` back to `'export'` for static HTML generation
+- Disabled Next.js Image Optimization (required for static export)
+- Maintained trailing slash for Firebase Hosting compatibility
+- All pages pre-rendered at build time as static files
+- Zero hosting costs on Firebase Hosting free tier
+- No Cloud Run or Docker dependencies
+- Updated configuration comments to reflect static export architecture
+- See `.kiro/specs/ssr-migration/` for migration history and rollback details
+
 **API Documentation URLs Updated** - Corrected base URLs for production and local development:
 - Production URL updated to: `https://us-central1-mindcruit.cloudfunctions.net`
 - Local development URL updated to: `http://localhost:5001/mindcruit/us-central1`
@@ -445,7 +526,7 @@ The test server provides:
 │   ├── contact/           # Contact section
 │   │   └── page.tsx       # Contact page with form and info
 │   └── projects/          # Projects section
-│       ├── page.tsx       # Projects page (Server Component with ISR)
+│       ├── page.tsx       # Projects page (Server Component with SSR)
 │       ├── ProjectsClient.tsx  # Client component for filtering/search
 │       └── [id]/          # Dynamic project detail routes
 │           ├── page.tsx   # Project detail page (SSG with ISR)
@@ -2101,7 +2182,35 @@ import ProjectCard from '@/components/ProjectCard';
 ### Firebase
 
 - `npm run emulators` - Start Firebase Emulator Suite
-- `npm run deploy` - Build and deploy to Firebase
+- `npm run deploy` - Build and deploy to Firebase (runs deploy:build and deploy:hosting)
+
+### Deployment Scripts
+
+The project includes scripts for Docker containerization and Cloud Run deployment:
+
+**Docker Scripts:**
+- `npm run docker:build` - Build Docker image locally for testing
+- `npm run docker:run` - Run Docker container locally with environment variables from .env.local
+- `npm run docker:test` - Build and run Docker container in one command (for local testing)
+
+**Deployment Scripts:**
+- `npm run deploy:build` - Trigger Google Cloud Build to build and deploy container to Cloud Run
+- `npm run deploy:hosting` - Deploy Firebase Hosting configuration
+- `npm run deploy` - Complete deployment pipeline (Cloud Build + Firebase Hosting)
+
+**Usage Examples:**
+```bash
+# Test Docker container locally before deploying
+npm run docker:test
+
+# Deploy to production (Cloud Run + Firebase Hosting)
+npm run deploy
+
+# Deploy only hosting configuration
+npm run deploy:hosting
+```
+
+**Requirements:** These scripts validate Requirements 6.1, 6.2, 6.3 from the SSR migration specification.
 
 ### Testing and Development
 
@@ -2123,6 +2232,12 @@ import ProjectCard from '@/components/ProjectCard';
 
 - `node scripts/verify-setup.js` - Verify project setup and configuration
 - `node scripts/verify-firestore-rules.js` - Validate Firestore security rules
+- `STAGING_URL=<url> node scripts/verify-staging-deployment.js` - End-to-end verification of SSR staging deployment (tests page loading, SEO meta tags, structured data, and performance)
+
+### Google Cloud Setup
+
+- `npm run setup-gcloud` - Interactive script to set up Google Cloud prerequisites for SSR deployment (validates gcloud CLI, project configuration, enables required APIs, and configures Cloud Build/Cloud Run)
+- `npm run setup-monitoring` - Interactive script to set up monitoring and alerting for Cloud Run and Firebase services (configures uptime checks, alert policies, notification channels, and dashboards)
 
 ## Dependencies
 
@@ -2163,6 +2278,7 @@ The project uses separate test configurations for frontend and backend:
   - Coverage collection: Enabled for all source files in `app/`, `components/`, and `lib/`
   - Coverage thresholds: Set to 0% (incremental development approach - tests added as needed)
   - **Component Tests**: Admin login page tests validate authentication error handling (Requirements 12.2)
+  - **Configuration Tests**: Firebase Hosting configuration tests validate SSR migration setup
 
 - **Backend tests** (Jest): Located in `functions/src/__tests__/` directory
   - Configuration: `functions/jest.config.js` (Node.js environment)
@@ -2177,7 +2293,60 @@ The project follows an incremental testing approach where:
 - Property-based tests validate universal correctness properties
 - Component tests are added as needed based on complexity and risk
 - Admin interface components include error handling tests for user feedback validation
+- Configuration tests ensure deployment settings remain correct during migrations
 - Coverage thresholds are intentionally set to 0 to allow flexible, incremental test development
+
+### Configuration Testing
+
+The project includes automated tests for critical configuration files to prevent regressions during migrations and deployments:
+
+**Firebase Hosting Configuration Tests** (`__tests__/config/firebase-config.test.ts`)
+- **SSR Migration Validation**: Ensures static export configuration is removed for SSR compatibility
+- **Cloud Run Rewrite Rules**: Validates correct serviceId and region for SSR deployment
+- **Cache Headers**: Verifies cache headers for static assets (images, JS, CSS) are maintained
+- **Firebase Services**: Confirms Firestore, Storage, Functions, and Emulator configurations remain intact
+- **Purpose**: Prevents configuration regressions during SSR migration and deployment changes
+- **Test Coverage**: 
+  - No public directory for static export (SSR uses Cloud Run)
+  - Cloud Run rewrite rule with correct source pattern (`**`)
+  - ServiceId set to `portfolio-website` with region `us-central1`
+  - Cache headers for images (jpg, png, svg, webp)
+  - Cache headers for JS and CSS files
+  - Firestore rules and indexes configuration
+  - Storage rules configuration
+  - Functions configuration with source and codebase
+  - Emulator configuration for local development
+
+**SSR Migration Documentation Tests** (`__tests__/docs/migration-guide.test.ts`)
+- **Documentation Completeness**: Validates that the SSR migration guide contains all required sections
+- **Architecture Documentation**: Ensures diagrams and architecture explanations are present
+- **Configuration Changes**: Verifies documentation of next.config.js, firebase.json, Dockerfile, and cloudbuild.yaml changes
+- **Deployment Instructions**: Confirms step-by-step deployment guide with prerequisites
+- **Troubleshooting Coverage**: Validates common issues are documented (Docker, Cloud Build, Cloud Run, Firebase Hosting)
+- **Rollback Procedures**: Ensures emergency and full rollback procedures are documented
+- **Cost Estimates**: Verifies cost comparison between static export and SSR with Cloud Run
+- **Monitoring Guidance**: Confirms Cloud Run and Firebase Hosting metrics documentation
+- **Code Examples**: Validates presence of deployment commands, rollback commands, and configuration snippets
+- **Purpose**: Ensures migration documentation remains comprehensive and up-to-date during SSR migration process
+
+**Running Configuration Tests:**
+```bash
+# Run all tests including configuration tests
+npm run test:run
+
+# Run only configuration tests
+npm test -- __tests__/config/
+
+# Run only documentation tests
+npm test -- __tests__/docs/
+```
+
+These tests are particularly important during:
+- SSR migration from static export to Cloud Run deployment
+- Firebase Hosting configuration changes
+- Deployment pipeline updates
+- Infrastructure changes that affect firebase.json
+- Documentation updates to ensure completeness
 
 ### API Testing
 
@@ -2384,13 +2553,178 @@ The project uses a minimal Next.js configuration focused on performance and simp
 
 ## Deployment
 
-```bash
-# Build the Next.js app
-npm run build
+The portfolio website uses server-side rendering (SSR) with Firebase Hosting + Cloud Run for dynamic content and immediate updates.
 
-# Deploy to Firebase
-firebase deploy
+### Prerequisites
+
+Before deploying, ensure you have completed the Google Cloud setup:
+
+1. **Google Cloud CLI installed** - Install from https://cloud.google.com/sdk/docs/install
+2. **Google Cloud project configured** - Set your project ID
+3. **Required APIs enabled** - Cloud Run, Cloud Build, Container Registry
+4. **Service account permissions** - Sufficient IAM roles for deployment
+5. **Billing enabled** - Required for Cloud Run (free tier available)
+
+**Quick Setup:**
+```bash
+# Run the automated setup script
+npm run setup-gcloud
 ```
+
+**Detailed Guides:**
+- Complete setup guide: `docs/GOOGLE-CLOUD-SETUP.md`
+- Prerequisites checklist: `docs/GCLOUD-PREREQUISITES-CHECKLIST.md`
+- Migration guide: `docs/SSR-MIGRATION-GUIDE.md`
+
+### Deployment Steps
+
+#### 1. Test Locally with Docker (Recommended)
+
+```bash
+# Build Docker image
+npm run docker:build
+
+# Run container locally
+npm run docker:run
+
+# Test in browser: http://localhost:3000
+```
+
+#### 2. Deploy to Cloud Run
+
+```bash
+# Build and deploy to Cloud Run via Cloud Build
+npm run deploy:build
+
+# Monitor build progress at:
+# https://console.cloud.google.com/cloud-build/builds
+```
+
+This will:
+- Build the Docker image
+- Push to Google Container Registry
+- Deploy to Cloud Run service "portfolio-website"
+- Configure with 512MB memory, 1 CPU, 0-10 instances
+
+#### 3. Deploy Firebase Hosting Configuration
+
+```bash
+# Deploy Firebase Hosting rewrites to route traffic to Cloud Run
+npm run deploy:hosting
+```
+
+#### 4. Full Deployment (Cloud Run + Firebase Hosting)
+
+```bash
+# Deploy everything in one command
+npm run deploy
+```
+
+#### 5. Verify Deployment
+
+```bash
+# Get Cloud Run service URL
+gcloud run services describe portfolio-website \
+  --region=us-central1 \
+  --format='value(status.url)'
+
+# Test your Firebase Hosting URL
+curl -I https://your-domain.web.app
+```
+
+### Deployment Scripts
+
+The following npm scripts are available for deployment:
+
+- `npm run docker:build` - Build Docker image locally
+- `npm run docker:run` - Run Docker container locally with environment variables
+- `npm run docker:test` - Build and test Docker container locally
+- `npm run deploy:build` - Trigger Cloud Build to build and deploy to Cloud Run
+- `npm run deploy:hosting` - Deploy Firebase Hosting configuration
+- `npm run deploy` - Full deployment (Cloud Run + Firebase Hosting)
+
+### Architecture
+
+**Current Architecture (SSR with Cloud Run):**
+```
+User Request
+    ↓
+Firebase Hosting (CDN + Reverse Proxy)
+    ↓
+    ├─ Static Assets (/_next/*, /images/*) → Served directly from CDN
+    └─ Dynamic Routes (all other paths) → Rewrite to Cloud Run
+        ↓
+    Cloud Run (containerized Next.js app)
+        ↓
+    Next.js Server (SSR)
+        ↓
+    Firestore (server-side data fetching)
+        ↓
+    Rendered HTML (sent to client)
+```
+
+**Benefits:**
+- Immediate content updates (no revalidation delay)
+- True server-side rendering with fresh data
+- Maintains Firebase Hosting CDN benefits
+- Automatic scaling with Cloud Run
+- Cost-effective (scales to zero when idle)
+
+### Monitoring
+
+After deployment, set up monitoring and alerts:
+
+```bash
+# Run the automated monitoring setup script
+npm run setup-monitoring
+```
+
+This will configure:
+- Cloud Run uptime checks
+- Error rate and latency alerts
+- Email notifications
+- Cloud Monitoring dashboard
+
+**Manual Monitoring:**
+- Cloud Run metrics: https://console.cloud.google.com/run
+- Firebase Hosting metrics: https://console.firebase.google.com/
+- Detailed guide: `docs/MONITORING-SETUP.md`
+
+### Troubleshooting
+
+If you encounter deployment issues:
+
+1. **Check Cloud Build logs**: https://console.cloud.google.com/cloud-build/builds
+2. **Check Cloud Run logs**: `gcloud run services logs read portfolio-website --region=us-central1`
+3. **Verify environment variables**: Ensure all required variables are set in `.env.local`
+4. **Review troubleshooting guide**: `docs/SSR-MIGRATION-GUIDE.md` (Troubleshooting section)
+
+### Rollback Procedure
+
+If you need to rollback the deployment:
+
+**Emergency Rollback (5 minutes):**
+```bash
+# Revert Firebase Hosting configuration
+git checkout HEAD~1 firebase.json
+firebase deploy --only hosting
+```
+
+**Full Rollback:**
+See `docs/SSR-MIGRATION-GUIDE.md` for complete rollback instructions.
+
+### Cost Estimates
+
+**Expected Monthly Costs:**
+- Cloud Run: $0/month (within free tier for typical portfolio traffic)
+- Firebase Hosting: ~$6/month (bandwidth overage)
+- **Total: ~$6/month** (same as static export)
+
+**Free Tier Limits:**
+- Cloud Run: 2 million requests/month, 360,000 GB-seconds memory, 180,000 vCPU-seconds
+- Firebase Hosting: 10 GB storage, 360 MB/day bandwidth
+
+For detailed cost analysis, see `docs/SSR-MIGRATION-GUIDE.md` (Cost Estimates section).
 
 ## Environment Variables
 

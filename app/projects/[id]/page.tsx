@@ -2,11 +2,10 @@
  * Project Detail Page
  * 
  * Dynamic route for displaying individual project details.
- * Uses Static Site Generation (SSG) with Incremental Static Regeneration (ISR)
- * and fallback: 'blocking' for new projects.
+ * Uses Server-Side Rendering (SSR) for optimal performance and SEO.
  * 
  * Features:
- * - Server-side rendering with ISR (revalidate every 30 minutes)
+ * - Server-side rendering with fresh data on every request
  * - Full project information display
  * - Image gallery with lightbox functionality
  * - Live demo and GitHub repository links
@@ -27,7 +26,7 @@ import type { Project } from '@/types';
 
 /**
  * Generate static paths for all published projects at build time
- * Uses fallback: 'blocking' to handle new projects via ISR
+ * Optional optimization for SSR - pre-generates paths for faster initial loads
  * 
  * Requirements: 2.3
  */
@@ -104,18 +103,6 @@ export async function generateMetadata({
     };
   }
 }
-
-/**
- * Configure ISR revalidation
- * Regenerate page every 1800 seconds (30 minutes)
- */
-export const revalidate = 1800;
-
-/**
- * Configure dynamic route behavior
- * Use 'force-static' to enable ISR with fallback
- */
-export const dynamic = 'force-static';
 
 /**
  * Project Detail Page Component

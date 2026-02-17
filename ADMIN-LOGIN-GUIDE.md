@@ -56,7 +56,9 @@ Check browser console (F12) for errors and look for:
 Your current Firebase configuration:
 - Project ID: `mindcruit`
 - Auth Domain: `mindcruit.firebaseapp.com`
-- API Key: `AIzaSyCHACata3oYuyqbzgJ1v5pVBcLuf8Q1m6Y`
+- API Key: `[Get from Firebase Console > Project Settings > General]`
+
+**Note:** Never commit API keys to version control. Always use environment variables.
 
 ## Reset Password (if needed)
 

@@ -1,0 +1,62 @@
+# Node modules - will be installed during build
+node_modules
+
+# Next.js build output - will be generated during build
+.next
+out
+
+# Git repository
+.git
+.gitignore
+
+# Environment files - should be provided at runtime
+.env*.local
+.env.development
+.env.test
+
+# Firebase files
+.firebase
+.firebaserc
+firebase-debug.log
+firebase-debug.*.log
+functions
+
+# Documentation files
+*.md
+docs
+
+# IDE and editor files
+.vscode
+.idea
+*.swp
+*.swo
+*~
+
+# Test coverage
+coverage
+.nyc_output
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# CI/CD files
+.github
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Testing
+__tests__
+*.test.ts
+*.test.tsx
+*.test.js
+*.test.jsx
+
+# Misc
+.prettierrc
+.eslintrc.json
+jest.config.js
+# tsconfig.json is needed for Next.js build (path resolution)

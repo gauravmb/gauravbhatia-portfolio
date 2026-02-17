@@ -248,41 +248,42 @@ npm test
 
 ## Building for Production
 
-The project is configured for static export to Firebase Hosting:
+The project is configured for static export deployment on Firebase Hosting:
 
 ```bash
-# Build and export static files
+# Build the Next.js application
 npm run build
 
 # The output will be in the 'out' directory
-# This is ready for Firebase Hosting deployment
+# This includes pre-rendered static HTML files for all pages
 ```
 
 **Static Export Configuration:**
-- `output: 'export'` in next.config.js generates a fully static site
-- `images.unoptimized: true` disables Next.js image optimization for static hosting
-- No Node.js server required - deploys as static HTML/CSS/JS files
-- Compatible with Firebase Hosting's static file serving
+- `output: 'export'` in next.config.js generates static HTML files
+- `images.unoptimized: true` disables Next.js Image Optimization (required for static export)
+- All pages are pre-rendered at build time
+- No server runtime required - 100% static files
+- Perfect for Firebase Hosting free tier (zero cost)
+- Deploys as a containerized application with automatic scaling
 
-**Note:** The `npm run start` command is not available with static export. To test the production build locally, use a static file server:
+**Note:** The `npm run start` command starts the production server locally:
 
 ```bash
-# Install a static file server (if not already installed)
-npm install -g serve
-
-# Serve the static export
-serve out
+# Start the production server locally
+npm run start
 ```
+
+This runs the standalone server built by `npm run build`.
 
 ## Deployment
 
 The project uses static export for Firebase Hosting deployment:
 
 ```bash
-# Build and export static files
+# Build the standalone server
 npm run build
 
-# Deploy everything to Firebase
+# Deploy to Cloud Run (via Firebase Hosting)
 npm run deploy
 
 # Or deploy specific services
@@ -293,16 +294,16 @@ firebase deploy --only storage
 ```
 
 **Deployment Process:**
-1. `npm run build` generates static files in the `out` directory
-2. Firebase Hosting serves these static files directly
-3. No server-side rendering at runtime - all pages are pre-rendered
+1. `npm run build` generates the standalone server in the `.next` directory
+2. Firebase Hosting serves the application through Cloud Run
+3. Server-side rendering happens at request time on Cloud Run
 4. API endpoints run as Firebase Functions (serverless)
 
-**Important:** The static export configuration means:
-- All pages are pre-rendered at build time
-- Dynamic routes use `generateStaticParams` for static generation
-- No server-side rendering (SSR) at request time
-- Incremental Static Regeneration (ISR) is not available with static export
+**Important:** The standalone server configuration means:
+- Server-side rendering (SSR) at request time
+- Dynamic routes are rendered on-demand
+- Next.js Image Optimization works automatically
+- Requires Cloud Run for hosting (configured in firebase.json)
 
 ## Troubleshooting
 

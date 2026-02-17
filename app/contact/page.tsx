@@ -17,6 +17,10 @@ import { Metadata } from 'next';
 import ContactForm from '@/components/ContactForm';
 import { fetchProfile } from '@/lib/firestore';
 
+// Force dynamic rendering - no static generation at build time
+// Data will be fetched fresh on every request (SSR)
+export const dynamic = 'force-dynamic';
+
 /**
  * Generates SEO metadata for the contact page
  * Includes unique title, description, Open Graph tags, and canonical URL
