@@ -2,11 +2,10 @@
  * Projects Page
  * 
  * Displays all published projects with filtering and search capabilities.
- * Uses Static Site Generation (SSG) with Incremental Static Regeneration (ISR)
- * for optimal performance and SEO.
+ * Uses Server-Side Rendering (SSR) for optimal performance and SEO.
  * 
  * Features:
- * - Server-side rendering with ISR (revalidate every 30 minutes)
+ * - Server-side rendering with fresh data on every request
  * - Category filtering
  * - Search functionality (title, description, technologies)
  * - Responsive grid layout
@@ -20,6 +19,10 @@ import { Metadata } from 'next';
 import { fetchAllProjects } from '@/lib/firestore';
 import { Project } from '@/types';
 import ProjectsClient from './ProjectsClient';
+
+// Force dynamic rendering - no static generation at build time
+// Data will be fetched fresh on every request (SSR)
+export const dynamic = 'force-dynamic';
 
 /**
  * Extracts unique categories from projects array
@@ -60,7 +63,7 @@ export const metadata: Metadata = {
 
 /**
  * Server Component: Fetches data and renders projects page
- * Uses ISR with 30-minute revalidation (1800 seconds)
+ * Uses SSR with fresh data fetching on every request
  * 
  * Requirements: 2.1, 2.4
  */
@@ -78,10 +81,4 @@ export default async function ProjectsPage() {
     />
   );
 }
-
-/**
- * Configure ISR revalidation
- * Regenerate page every 1800 seconds (30 minutes)
- */
-export const revalidate = 1800;
 

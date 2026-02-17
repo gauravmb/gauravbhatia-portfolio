@@ -27,8 +27,9 @@ import ResumeSection from '@/components/ResumeSection';
 import { fetchProfile, fetchAllProjects } from '@/lib/firestore';
 import type { Profile, Project } from '@/types';
 
-// Enable ISR with 3600 second (1 hour) revalidation
-export const revalidate = 3600;
+// Force dynamic rendering - no static generation at build time
+// Data will be fetched fresh on every request (SSR)
+export const dynamic = 'force-dynamic';
 
 /**
  * Generates metadata for SEO optimization

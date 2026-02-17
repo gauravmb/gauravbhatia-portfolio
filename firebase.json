@@ -1,6 +1,5 @@
 {
   "hosting": {
-    "public": "out",
     "ignore": [
       "firebase.json",
       "**/.*",
@@ -9,7 +8,10 @@
     "rewrites": [
       {
         "source": "**",
-        "destination": "/index.html"
+        "run": {
+          "serviceId": "portfolio-website",
+          "region": "us-central1"
+        }
       }
     ],
     "headers": [
